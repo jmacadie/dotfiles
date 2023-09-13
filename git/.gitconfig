@@ -1,0 +1,56 @@
+[user]
+	name = James MacAdie (TT sandbox)
+	email = j.macadie@ttg.co.uk
+[core]
+	editor = /usr/local/bin/nvim
+	pager = delta
+[color]
+	status = auto
+	branch = auto
+[push]
+	default = simple
+[alias]
+	s = status
+	l = log --pretty='format:%C(auto)%h %d %<|(120)%s %Cblue%aN, %ad' --date=format:'%a %Y-%m-%d %H:%I' --graph
+	a = add -i
+	d = diff
+	ds = diff --staged
+	c = commit
+	co = checkout
+	sw = switch
+	br = branch
+	ld = log --patch
+	lol = log --graph --decorate
+	lols = log --oneline --graph --decorate
+	logs = log --stat
+	nuke = !git reset --hard && git clean -f -d
+	unstage = reset HEAD --
+	last = log -1 HEAD
+	df = difftool
+	dfs = difftool --cached
+	dfn = diff --name-only
+	dfus = "!f() { git difftool :./ -- ; }; f"
+	pom = push origin main
+	pl = pull origin main
+[diff]
+	#algorithm = histogram
+	#tool = vimdiff
+	colorMoved = default
+[merge]
+	#tool = vimdiff
+	conflictstyle = diff3
+[difftool]
+	prompt = false
+	trustExitCode = true
+[init]
+	defaultBranch = main
+[delta]
+	#https://dandavison.github.io/delta/introduction.html
+	navigate = true
+	line-numbers = true
+	side-by-side = true
+	features = nord
+[interactive]
+	diffFilter = delta --color-only
+[pull]
+	rebase = false
