@@ -1,4 +1,14 @@
 return {
   'williamboman/mason.nvim',
-  config = true ,
+  opts = {
+    ensure_installed = {
+      -- Python
+      "pyright",
+      "mypy",
+      "ruff",
+      "black",
+      -- Rust
+      "rust-analyzer",
+    },
+  },
 }

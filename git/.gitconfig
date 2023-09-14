@@ -13,31 +13,23 @@
 	s = status
 	l = log --pretty='format:%C(auto)%h %d %<|(120)%s %Cblue%aN, %ad' --date=format:'%a %Y-%m-%d %H:%I' --graph
 	a = add -i
+	aa = add .
 	d = diff
-	ds = diff --staged
+	dfs = diff --staged
 	c = commit
 	co = checkout
 	sw = switch
-	br = branch
+	b = branch
 	ld = log --patch
-	lol = log --graph --decorate
-	lols = log --oneline --graph --decorate
 	logs = log --stat
 	nuke = !git reset --hard && git clean -f -d
 	unstage = reset HEAD --
 	last = log -1 HEAD
-	df = difftool
-	dfs = difftool --cached
 	dfn = diff --name-only
 	dfus = "!f() { git difftool :./ -- ; }; f"
-	pom = push origin main
-	pl = pull origin main
 [diff]
-	#algorithm = histogram
-	#tool = vimdiff
 	colorMoved = default
 [merge]
-	#tool = vimdiff
 	conflictstyle = diff3
 [difftool]
 	prompt = false
