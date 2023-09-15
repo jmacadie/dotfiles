@@ -84,4 +84,4 @@ source $ZSH/oh-my-zsh.sh
 eval "$(starship init zsh)"
 
 # SSH agent
-.bash/ssh-agent.sh
+$HOME/.bash/ssh-agent.sh
