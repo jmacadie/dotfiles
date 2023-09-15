@@ -18,4 +18,3 @@ cp ~/.tmux.conf tmux/
 
 cp ~/.zshrc zsh/
 cp ~/.bashrc zsh/
-cp -r ~/.bash/ zsh/
