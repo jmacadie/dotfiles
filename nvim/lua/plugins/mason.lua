@@ -9,6 +9,8 @@ return {
       "black",
       -- Rust
       "rust-analyzer",
+      -- Lua
+      "stylua",
     },
   },
 }

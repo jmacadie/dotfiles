@@ -16,9 +16,6 @@ pcall(require('telescope').load_extension, 'fzf')
 -- https://github.com/nvim-treesitter/nvim-treesitter/issues/1337#issuecomment-1397639999
 vim.api.nvim_create_autocmd({ "BufEnter" }, { pattern = { "*" }, command = "normal zx", })
 
--- TODO: autoformat
--- TODO: Rust LSP
--- TODO: show line number of current line
 -- TODO: luasnips
 -- TODO: nvim-cmp
 -- TODO: review plugins I used to have e.g. devicons
