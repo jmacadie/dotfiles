@@ -10,10 +10,10 @@ ks({ "i" }, "kj", "<Esc>", { silent = true })
 -- [[ Navigation ]]
 
 -- Move between windows
-ks("n", "<C-j>", "<C-w>j", { silent = true })
-ks("n", "<C-k>", "<C-w>k", { silent = true })
-ks("n", "<C-h>", "<C-w>h", { silent = true })
-ks("n", "<C-l>", "<C-w>l", { silent = true })
+ks("n", "<a-j>", "<C-w>j", { silent = true })
+ks("n", "<a-k>", "<C-w>k", { silent = true })
+ks("n", "<a-h>", "<C-w>h", { silent = true })
+ks("n", "<a-l>", "<C-w>l", { silent = true })
 
 -- Remap for dealing with word wrap
 ks("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
