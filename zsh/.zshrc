@@ -96,3 +96,18 @@ if [ "$?" -ne "0" ]; then
     echo "No ssh keys have been added to your 'ssh-agent' since the last reboot. Adding default keys now."
     ssh-add
 fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export BAT_THEME="base16"
+
+eval "$(zoxide init zsh)"
+
+alias cd=z
+alias cat=bat
+alias ls=eza
+alias ll="eza -la"
+alias lt="eza -a --tree"
+alias vim=nvim
+alias update="sudo apt update && sudo apt upgrade -y --allow-downgrades && sudo apt autoremove"
+
