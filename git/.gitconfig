@@ -20,6 +20,7 @@
 	co = checkout
 	sw = switch
 	b = branch
+	p = push
 	ld = log --patch
 	logs = log --stat
 	nuke = !git reset --hard && git clean -f -d
