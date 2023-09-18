@@ -17,4 +17,3 @@ cp -r ~/.config/nvim ./
 cp ~/.tmux.conf tmux/
 
 cp ~/.zshrc zsh/
-cp ~/.bashrc zsh/
