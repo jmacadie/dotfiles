@@ -15,19 +15,18 @@
 	a = add -i
 	aa = add .
 	d = diff
-	dfs = diff --staged
+	ds = diff --staged
+	dn = diff --name-only
 	c = commit
 	co = checkout
 	sw = switch
 	b = branch
 	p = push
+	f = fetch
 	ld = log --patch
 	logs = log --stat
 	nuke = !git reset --hard && git clean -f -d
 	unstage = reset HEAD --
-	last = log -1 HEAD
-	dfn = diff --name-only
-	dfus = "!f() { git difftool :./ -- ; }; f"
 [diff]
 	colorMoved = default
 [merge]
