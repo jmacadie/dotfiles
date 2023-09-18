@@ -34,10 +34,5 @@ ks({ "n" }, "#", "#zz", { silent = true })
 -- [[ LSP ]]
 
 -- Diagnostic keymaps
-ks("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
-ks("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
-ks("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
-ks("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
-
--- [[ Tresitter stuff ]]
-ks("n", "zF", "[mzczO", { desc = "Fully expand current function" })
+ks("n", "[q", ":cp<CR>", { desc = "Go to previous quickfix entry" })
+ks("n", "]q", ":cn<CR>", { desc = "Go to next quickfix entry" })
