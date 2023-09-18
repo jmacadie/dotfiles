@@ -38,3 +38,6 @@ ks("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic mess
 ks("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 ks("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 ks("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+
+-- [[ Tresitter stuff ]]
+ks("n", "zF", "[mzczO", { desc = "Fully expand current function" })

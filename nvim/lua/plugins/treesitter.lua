@@ -38,27 +38,39 @@ return {
 						["if"] = "@function.inner",
 						["ac"] = "@class.outer",
 						["ic"] = "@class.inner",
+						["ai"] = "@conditional.outer",
+						["ii"] = "@conditional.inner",
+						["ak"] = "@block.outer",
+						["ik"] = "@block.inner",
+						["al"] = "@loop.outer",
+						["il"] = "@loop.inner",
 					},
 				},
 				move = {
 					enable = true,
 					set_jumps = true, -- whether to set jumps in the jumplist
 					goto_next_start = {
-						["]m"] = "@function.outer",
+						["]f"] = "@function.outer",
 						["]]"] = "@class.outer",
+						["]i"] = "@conditional.outer",
+						["]k"] = "@block.outer",
+						["]l"] = "@loop.outer",
 					},
-					goto_next_end = {
-						["]M"] = "@function.outer",
-						["]["] = "@class.outer",
-					},
+					-- goto_next_end = {
+					-- 	["]M"] = "@function.outer",
+					-- 	["]["] = "@class.outer",
+					-- },
 					goto_previous_start = {
-						["[m"] = "@function.outer",
+						["[f"] = "@function.outer",
 						["[["] = "@class.outer",
+						["[i"] = "@conditional.outer",
+						["[k"] = "@block.outer",
+						["[l"] = "@loop.outer",
 					},
-					goto_previous_end = {
-						["[M"] = "@function.outer",
-						["[]"] = "@class.outer",
-					},
+					-- goto_previous_end = {
+					-- 	["[M"] = "@function.outer",
+					-- 	["[]"] = "@class.outer",
+					-- },
 				},
 				swap = {
 					enable = true,
