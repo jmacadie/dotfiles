@@ -1,6 +1,12 @@
 # Dotfiles
 
-# Progams Expected
+## Run
+
+You can sync files _into_ this repo by running the `sync.sh` script from the top level directory.
+If you want to copy files from this repo to your system settings, say on a new machine, then
+this currently needs to be done by hand
+
+## Progams Expected
 
 * [zsh](https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH) - a `sh` -> `bash` replacement
 * [starhip](https://starship.rs/) - customisable prompt
