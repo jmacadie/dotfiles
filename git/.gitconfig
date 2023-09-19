@@ -16,7 +16,7 @@
 	aa = add .
 	d = diff
 	ds = diff --staged
-	dn = diff --name-only
+	dn = diff --stat
 	c = commit
 	co = checkout
 	sw = switch
