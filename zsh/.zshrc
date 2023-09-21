@@ -111,3 +111,5 @@ alias lt="eza -a --tree"
 alias vim=nvim
 alias update="sudo apt update && sudo apt upgrade -y --allow-downgrades && sudo apt autoremove"
 
+# Run my check versions script
+$HOME/check_versions.sh

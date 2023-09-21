@@ -17,3 +17,4 @@ cp -r ~/.config/nvim ./
 cp ~/.tmux.conf tmux/
 
 cp ~/.zshrc zsh/
+cp ~/check_versions.sh zsh/
