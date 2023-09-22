@@ -68,7 +68,7 @@ url="https://github.com/sharkdp/fd/releases"
 details=$(api "$url" "^v[0-9]")
 latest=$(version "$details")
 latest_date=$(date "$details")
-installed=$(fd --version | rg "^fd " | sed "s/^fd //")
+installed=$(fd --version | rg "^fd " | sed "s/^fd /v/")
 run_check "fd" $installed $latest $latest_date $url
 
 # eza
