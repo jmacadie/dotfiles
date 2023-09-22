@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/.cargo/bin:$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+export PATH=$HOME/squashfs-root/usr/bin:$HOME/.cargo/bin:$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -88,6 +88,9 @@ if [ ! -S ~/.ssh/ssh_auth_sock ]; then
     echo "'ssh-agent' has not been started since the last reboot. Starting 'ssh-agent' now."
     eval $(ssh-agent -s)
     ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+    VERSIONS_CHECKED=0
+else;
+    VERSIONS_CHECKED=1
 fi
 export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
 # see if any key files are already added to the ssh-agent, and if not, add them
@@ -112,4 +115,7 @@ alias vim=nvim
 alias update="sudo apt update && sudo apt upgrade -y --allow-downgrades && sudo apt autoremove"
 
 # Run my check versions script
-$HOME/check_versions.sh
+# Only run it if we started the ssh agaent, as this should be a once per login frequency
+if [[ "$VERSIONS_CHECKED" -eq 0 ]]; then
+    $HOME/check_versions.sh
+fi

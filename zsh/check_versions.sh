@@ -9,9 +9,9 @@ function run_check() {
   local reset="\e[0m"
 
   if [[ $2 != $3 ]]; then
-    echo -e "$yellow$1$reset: $yellow$2$reset -> $blue$3 ($4)$reset ❌ - $grey$5$reset"
+    echo -e "❌ $yellow$1$reset: $yellow$2$reset -> $blue$3 ($4)$reset - $grey$5$reset"
   else
-    echo -e "$green$1$reset: $grey$2 ($4)$reset ✅"
+    echo -e "✅ $green$1$reset: $grey$2 ($4)$reset"
   fi
 }
 

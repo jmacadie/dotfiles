@@ -2,7 +2,7 @@
 	name = James MacAdie (TT sandbox)
 	email = j.macadie@ttg.co.uk
 [core]
-	editor = /usr/local/bin/nvim
+	editor = nvim
 	pager = delta
 [color]
 	status = auto
