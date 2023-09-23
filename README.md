@@ -2,9 +2,9 @@
 
 ## Run
 
-You can sync files _into_ this repo by running the `sync.sh` script from the top level directory.
-If you want to copy files from this repo to your system settings, say on a new machine, then
-this currently needs to be done by hand
+The script `sync.sh` will create symlinks in all the right places into the various
+files in this repo. You should only need to run this once, unless new files are
+added to this repo
 
 ## Progams Expected
 

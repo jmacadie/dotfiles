@@ -3,6 +3,7 @@
 function new_session() {
   cd $1
   tmux new-session -d -s $2
+  # Special set-up for special sessions
   case $2 in
     "pyttg")
       tmux rename-window -t $2:1 terminal;

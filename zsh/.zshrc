@@ -117,5 +117,5 @@ alias update="sudo apt update && sudo apt upgrade -y --allow-downgrades && sudo 
 # Run my check versions script
 # Only run it if we started the ssh agaent, as this should be a once per login frequency
 if [[ "$VERSIONS_CHECKED" -eq 0 ]]; then
-    $HOME/check_versions.sh
+    $HOME/.zsh/check_versions.sh
 fi
