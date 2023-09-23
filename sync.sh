@@ -18,3 +18,5 @@ cp ~/.tmux.conf tmux/
 
 cp ~/.zshrc zsh/
 cp ~/check_versions.sh zsh/
+cp ~/.local/bin/t zsh/
+cp ~/.local/bin/tt zsh/

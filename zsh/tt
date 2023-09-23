@@ -1,0 +1,44 @@
+#!/bin/bash
+
+function new_session() {
+  cd $1
+  tmux new-session -d -s $2
+  case $2 in
+    "pyttg")
+      tmux rename-window -t $2:1 terminal;
+      tmux send-keys -t $2:1 'poetry shell' C-m;
+      tmux new-window -t $2 -n vim;
+      tmux send-keys -t $2:2 'poetry shell' C-m;
+      ;;
+    "aoc-rs")
+      tmux rename-window -t $2:1 terminal;
+      tmux new-window -t $2 -n vim;
+      ;;
+  esac
+}
+
+# Fuzzy find across all possible directories
+ZOXIDE_RESULT=$(zoxide query -l | fzf --height=40% --reverse --info=inline --border --margin=1 --padding=1)
+# If empty, quit
+if [[ -z "$ZOXIDE_RESULT" ]]; then
+  exit 0
+fi
+
+# Get folder name
+FOLDER=$(basename $ZOXIDE_RESULT)
+
+# Lookup tmux session name
+SESSION=$(tmux list-sessions | grep $FOLDER | awk '{print $1}')
+SESSION=${SESSION//:/}
+
+# If session does not exist, create it
+if [[ -z "$SESSION" ]]; then
+  new_session $ZOXIDE_RESULT $FOLDER
+fi
+
+# Attach to client or switch depending on whether we're in or out of tmux currently
+if [[ -z "$TMUX" ]]; then
+  tmux attach -t $SESSION
+else
+  tmux switch-client -t $FOLDER
+fi
