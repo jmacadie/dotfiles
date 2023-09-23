@@ -31,6 +31,14 @@ function date() {
 
 echo "Checking software is up to date..."
 
+# Rust
+url="https://github.com/rust-lang/rust/releases"
+details=$(api "$url" "^[0-9]")
+latest=$(version "$details")
+latest_date=$(date "$details")
+installed=$(rustc --version | rg "^rustc" | sed "s/^rustc //" | sed "s/ ([0-9a-f]\+ [0-9\-]\+)$//")
+run_check "Rust" $installed $latest $latest_date $url
+
 # Neovim
 url="https://github.com/neovim/neovim/releases"
 details=$(api "$url" "^v[0-9]")
