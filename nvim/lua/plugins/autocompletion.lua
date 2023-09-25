@@ -16,19 +16,23 @@ return {
 		"hrsh7th/cmp-path",
 
 		-- Completion from the command line
-		"hrsh7th/cmp-cmdline",
+		-- "hrsh7th/cmp-cmdline",
 
 		-- Completion engine for lua
 		"hrsh7th/cmp-nvim-lua",
 
 		-- Adds a number of user-friendly snippets
 		"rafamadriz/friendly-snippets",
+
+		-- Icons for completion
+		"onsails/lspkind.nvim",
 	},
 	config = function()
 		-- [[ Configure nvim-cmp ]]
 		-- See `:help cmp`
 		local cmp = require("cmp")
 		local luasnip = require("luasnip")
+		local lspkind = require("lspkind")
 		require("luasnip.loaders.from_vscode").lazy_load()
 		luasnip.config.setup({})
 
@@ -51,7 +55,30 @@ return {
 			}),
 			sources = {
 				{ name = "nvim_lsp" },
+				{ name = "path" },
 				{ name = "luasnip" },
+				{ name = "buffer", keyword_length = 5 },
+			},
+			window = {
+				completion = cmp.config.window.bordered(),
+				documentation = cmp.config.window.bordered(),
+			},
+			formatting = {
+				format = lspkind.cmp_format({
+					preset = "default",
+					mode = "symbol_text",
+					menu = {
+						buffer = "[buf]",
+						nvim_lsp = "[LSP]",
+						luasnip = "[snip]",
+						nvim_lua = "[api]",
+						path = "[path]",
+					},
+				}),
+				-- format = function(_, vim_item)
+				-- 	vim_item.kind = (lspkind[vim_item.kind] or " ") .. " " .. vim_item.kind
+				-- 	return vim_item
+				-- end,
 			},
 		})
 	end,
