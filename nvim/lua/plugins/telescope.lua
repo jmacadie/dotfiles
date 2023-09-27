@@ -32,11 +32,15 @@ return {
 		vim.keymap.set("n", "<leader><space>", tb.buffers, { desc = "[ ] Find existing buffers" })
 		vim.keymap.set("n", "<leader>/", cbff, { desc = "[/] Fuzzily search in current buffer" })
 		vim.keymap.set("n", "<leader>sf", tb.find_files, { desc = "[S]earch [F]iles" })
+		vim.keymap.set("n", "<leader>sa", function()
+			tb.find_files({ hidden = true, no_ignore = true })
+		end, { desc = "[S]earch [A]ll files" })
 		vim.keymap.set("n", "<leader>sh", tb.help_tags, { desc = "[S]earch [H]elp" })
 		vim.keymap.set("n", "<leader>sw", tb.grep_string, { desc = "[S]earch current [W]ord" })
 		vim.keymap.set("n", "<leader>sg", tb.live_grep, { desc = "[S]earch by [G]rep" })
 		vim.keymap.set("n", "<leader>sd", tb.diagnostics, { desc = "[S]earch [D]iagnostics" })
 		vim.keymap.set("n", "<leader>st", tb.builtin, { desc = "[S]earch [T]elescope" })
+		vim.keymap.set("n", "<leader>ss", tb.resume, { desc = "[S]earch Re[s]umes" })
 		vim.keymap.set("n", "<leader>sm", ":Telescope harpoon marks<CR>", { desc = "[S]earch Harpoon [M]arks" })
 	end,
 	keys = {
