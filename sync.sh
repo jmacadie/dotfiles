@@ -16,6 +16,7 @@ rm -f $HOME/.zshrc
 rm -rf $HOME/.zsh
 rm -r $HOME/.local/bin/t
 rm -r $HOME/.local/bin/tt
+rm -r $HOME/.local/bin/gbt
 rm -f $HOME/.config/starship.toml
 rm -rf $HOME/.config/nvim
 
@@ -26,5 +27,6 @@ ln -s $DIR/zsh/.zshrc $HOME/.zshrc
 ln -s $DIR/zsh/.zsh $HOME/.zsh
 ln -s $DIR/zsh/t $HOME/.local/bin/t
 ln -s $DIR/zsh/tt $HOME/.local/bin/tt
+ln -s $DIR/zsh/tt $HOME/.local/bin/gbt
 ln -s $DIR/starship/starship.toml $HOME/.config/starship.toml
 ln -s $DIR/nvim $HOME/.config/nvim

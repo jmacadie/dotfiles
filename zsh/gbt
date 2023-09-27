@@ -1,0 +1,5 @@
+#!/bin/bash
+git fetch origin "$1:$2"
+git branch "--set-upstream-to=origin/$1" $2
+git switch $2
+git pull $2
