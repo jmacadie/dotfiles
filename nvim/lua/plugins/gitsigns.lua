@@ -1,0 +1,42 @@
+-- Adds git related signs to the gutter, as well as utilities for managing changes
+return {
+	"lewis6991/gitsigns.nvim",
+	opts = {
+		-- See `:help gitsigns.txt`
+		signs = {
+			add = { text = "│" },
+			change = { text = "󱋱" },
+			delete = { text = "_" },
+			topdelete = { text = "‾" },
+			changedelete = { text = "~" },
+		},
+		on_attach = function(bufnr)
+			local gs = require("gitsigns")
+
+			local function map(mode, l, r, opts)
+				opts = opts or {}
+				opts.buffer = bufnr
+				vim.keymap.set(mode, l, r, opts)
+			end
+
+			map("n", "<leader>gp", gs.prev_hunk, { desc = "[G]itsigns: [P]revious Hunk" })
+			map("n", "<leader>gn", gs.next_hunk, { desc = "[G]itsigns: [N]ext Hunk" })
+			map("n", "<leader>gp", gs.preview_hunk, { desc = "[G]itsigns: [P]review hunk" })
+			map("n", "<leader>gs", gs.stage_hunk, { desc = "[G]itsigns: [S]tage hunk" })
+			map("v", "<leader>gs", function()
+				gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+			end, { desc = "[G]itsigns [S]tage line" })
+			map("v", "<leader>gr", function()
+				gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+			end, { desc = "[G]itsigns [R]eset line" })
+			map("n", "<leader>gr", gs.reset_hunk, { desc = "[G]itsigns: [R]eset hunk" })
+			map("n", "<leader>gu", gs.undo_stage_hunk, { desc = "[G]itsigns: [U]ndo stage hunk" })
+			map("n", "<leader>gu", gs.undo_stage_hunk, { desc = "[G]itsigns: [U]ndo stage hunk" })
+			map("n", "<leader>gb", function()
+				gs.blame_line({ full = true })
+			end, { desc = "[G]itsigns: [B]lame line" })
+			map("n", "<leader>gtb", gs.toggle_current_line_blame, { desc = "[G]itsigns: [T]oggle [B]lame" })
+			map("n", "<leader>gtd", gs.toggle_deleted, { desc = "[G]itsigns: [T]oggle [D]eleted" })
+		end,
+	},
+}
