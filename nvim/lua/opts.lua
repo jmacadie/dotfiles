@@ -8,6 +8,8 @@ vim.o.hlsearch = false
 -- Make line numbers default
 vim.wo.relativenumber = true
 vim.wo.number = true
+vim.o.cursorline = true
+vim.o.cursorlineopt = "number"
 
 -- Enable mouse mode
 vim.o.mouse = "a"
