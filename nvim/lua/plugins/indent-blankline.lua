@@ -7,10 +7,6 @@ return {
 	"lukas-reineke/indent-blankline.nvim",
 	-- Enable `lukas-reineke/indent-blankline.nvim`
 	-- See `:help indent_blankline.txt`
-	opts = {
-		char = "┊",
-		show_trailing_blankline_indent = true,
-		show_end_of_line = true,
-		show_char_blankline = " ",
-	},
+	main = "ibl",
+	config = true,
 }

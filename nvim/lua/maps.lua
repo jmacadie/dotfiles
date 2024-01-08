@@ -5,7 +5,7 @@ local ks = vim.keymap.set
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 ks({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
-ks({ "i" }, "kj", "<Esc>", { silent = true })
+-- ks({ "i" }, "kj", "<Esc>", { silent = true })
 
 -- [[ Navigation ]]
 
@@ -19,17 +19,11 @@ ks("n", "<a-l>", "<C-w>l", { silent = true })
 ks("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 ks("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
--- Disable arrow keys!
-ks({ "n", "v" }, "<Up>", "<Nop>", { silent = true })
-ks({ "n", "v" }, "<Down>", "<Nop>", { silent = true })
-ks({ "n", "v" }, "<Left>", "<Nop>", { silent = true })
-ks({ "n", "v" }, "<Right>", "<Nop>", { silent = true })
-
 -- Scroll with find
-ks({ "n" }, "n", "nzz", { silent = true })
-ks({ "n" }, "N", "Nzz", { silent = true })
-ks({ "n" }, "*", "*zz", { silent = true })
-ks({ "n" }, "#", "#zz", { silent = true })
+ks("n", "n", "nzz", { silent = true })
+ks("n", "N", "Nzz", { silent = true })
+ks("n", "*", "*zz", { silent = true })
+ks("n", "#", "#zz", { silent = true })
 
 -- [[ LSP ]]
 
