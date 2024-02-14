@@ -84,6 +84,11 @@ source $ZSH/oh-my-zsh.sh
 eval "$(starship init zsh)"
 
 # SSH agent
+ssh-add &> /dev/null
+if [[ ($? -ne 0) && (-e ~/.ssh/ssh_auth_sock) ]]; then
+  rm ~/.ssh/ssh_auth_sock
+fi
+
 if [ ! -S ~/.ssh/ssh_auth_sock ]; then
     echo "'ssh-agent' has not been started since the last reboot. Starting 'ssh-agent' now."
     eval $(ssh-agent -s)
