@@ -52,6 +52,27 @@ return {
 					behavior = cmp.ConfirmBehavior.Replace,
 					select = true,
 				}),
+				["<C-l>"] = cmp.mapping(function(fallback)
+					if luasnip.locally_jumpable(1) then
+						luasnip.jump(1)
+					else
+						fallback()
+					end
+				end, { "i", "s" }),
+				["<C-j>"] = cmp.mapping(function(fallback)
+					if luasnip.locally_jumpable(-1) then
+						luasnip.jump(-1)
+					else
+						fallback()
+					end
+				end, { "i", "s" }),
+				["<C-e>"] = cmp.mapping(function(fallback)
+					if luasnip.choice_active() then
+						luasnip.change_choice(1)
+					else
+						fallback()
+					end
+				end, { "i", "s" }),
 			}),
 			sources = {
 				{ name = "nvim_lsp" },
