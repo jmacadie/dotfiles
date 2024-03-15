@@ -22,6 +22,7 @@
 	sw = switch
 	b = branch
 	p = push
+	pp = pull
 	f = !git remote update origin --prune && git fetch --tags
 	ld = log --patch
 	logs = log --stat
