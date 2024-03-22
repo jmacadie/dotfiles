@@ -40,7 +40,7 @@ return {
 				return "<Ignore>"
 			end, { expr = true, desc = "Gitsigns: Previous Hunk" })
 
-			map("n", "<leader>gp", gs.preview_hunk, { desc = "[G]itsigns: [P]review hunk" })
+			map("n", "<leader>gp", gs.preview_hunk_inline, { desc = "[G]itsigns: [P]review hunk" })
 			map("n", "<leader>gs", gs.stage_hunk, { desc = "[G]itsigns: [S]tage hunk" })
 			map("n", "<leader>gr", gs.reset_hunk, { desc = "[G]itsigns: [R]eset hunk" })
 			map("n", "<leader>gu", gs.undo_stage_hunk, { desc = "[G]itsigns: [U]ndo stage hunk" })
