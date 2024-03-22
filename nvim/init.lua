@@ -14,10 +14,5 @@ require("maps")
 pcall(require("telescope").load_extension, "fzf")
 pcall(require("telescope").load_extension, "harpoon")
 
--- https://github.com/nvim-treesitter/nvim-treesitter/issues/1337#issuecomment-1397639999
-vim.api.nvim_create_autocmd({ "BufEnter" }, { pattern = { "*" }, command = "normal zx" })
-
--- TODO: review plugins I used to have e.g. devicons
-
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
