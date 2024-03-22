@@ -18,13 +18,7 @@ return {
 			highlight = { enable = true },
 			indent = { enable = true },
 			incremental_selection = {
-				enable = true,
-				keymaps = {
-					init_selection = "<c-space>",
-					node_incremental = "<c-space>",
-					scope_incremental = "<c-s>",
-					node_decremental = "<M-space>",
-				},
+				enable = false,
 			},
 			textobjects = {
 				select = {
@@ -78,6 +72,9 @@ return {
 					},
 				},
 			},
+			modules = {},
+			sync_install = false,
+			ignore_install = {},
 		})
 		local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 
