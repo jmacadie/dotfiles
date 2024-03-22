@@ -1,9 +1,7 @@
 -- [[ Setting options ]]
--- See `:help vim.o`
--- NOTE: You can change these options as you wish!
-
--- Set highlight on search
-vim.o.hlsearch = false
+-- Set highlight on search, cancel the highlighting with ESC in normal mode
+vim.o.hlsearch = true
+vim.keymap.set("n", "<ESC>", "<cmd>nohlsearch<CR>")
 
 -- Make line numbers default
 vim.wo.relativenumber = true
