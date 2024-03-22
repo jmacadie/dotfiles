@@ -15,8 +15,6 @@ vim.o.cursorlineopt = "number"
 vim.o.mouse = "a"
 
 -- Sync clipboard between OS and Neovim.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
 vim.o.clipboard = "unnamedplus"
 
 -- Enable break indent
@@ -61,7 +59,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	pattern = "*",
 })
 
--- " Spell-check Markdown files and Git Commit Messages
+-- Spell-check Markdown files and Git Commit Messages
 vim.api.nvim_command("autocmd FileType markdown setlocal spell")
 vim.api.nvim_command("autocmd FileType gitcommit setlocal spell")
 
