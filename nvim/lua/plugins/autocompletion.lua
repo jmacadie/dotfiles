@@ -96,10 +96,8 @@ return {
 						path = "[path]",
 					},
 				}),
-				-- format = function(_, vim_item)
-				-- 	vim_item.kind = (lspkind[vim_item.kind] or " ") .. " " .. vim_item.kind
-				-- 	return vim_item
-				-- end,
+				expandable_indicator = true,
+				fields = { "abbr", "kind", "menu" },
 			},
 		})
 	end,
