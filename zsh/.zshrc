@@ -79,7 +79,7 @@ VI_MODE_SET_CURSOR=true
 source $ZSH/oh-my-zsh.sh
 
 # Check if ssh agent is running & start it if not
-$HOME/.zsh/ssh.sh
+source $HOME/.zsh/ssh.sh
 
 # Starship
 eval "$(starship init zsh)"
