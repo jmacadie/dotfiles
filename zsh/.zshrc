@@ -100,3 +100,6 @@ alias update="sudo apt update && sudo apt upgrade -y --allow-downgrades && sudo 
 
 # Run my check versions script
 $HOME/.zsh/check_versions.sh
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
