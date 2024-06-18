@@ -39,7 +39,7 @@ fi
 
 # Attach to client or switch depending on whether we're in or out of tmux currently
 if [[ -z "$TMUX" ]]; then
-  tmux attach -t $SESSION
+  tmux attach-session -t $FOLDER
 else
   tmux switch-client -t $FOLDER
 fi
