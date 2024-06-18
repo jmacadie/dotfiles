@@ -26,5 +26,11 @@ return {
 			capabilities = utils.capabilities,
 			filetypes = { "python" },
 		})
+
+		lsp.ruby_lsp.setup({
+			on_attach = utils.on_attach,
+			capabilities = utils.capabilities,
+			filetypes = { "ruby" },
+		})
 	end,
 }
