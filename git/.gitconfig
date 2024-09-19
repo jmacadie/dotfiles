@@ -1,5 +1,5 @@
 [user]
-	name = James MacAdie (TT sandbox)
+	name = James MacAdie
 	email = j.macadie@ttg.co.uk
 [core]
 	editor = nvim
@@ -21,9 +21,10 @@
 	co = checkout
 	sw = switch
 	b = branch
-	p = push
-	pp = pull
+	ps = push
+	pl = pull
 	f = !git remote update origin --prune && git fetch --tags
+	ff = merge --ff-only
 	ld = log --patch
 	logs = log --stat
 	nuke = !git reset --hard && git clean -f -d
