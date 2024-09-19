@@ -5,6 +5,7 @@ return {
 			python = { "black" },
 			rust = { "rustfmt" },
 			lua = { "stylua" },
+			ruby = { "rubocop" },
 			["*"] = { "trim_whitespace" },
 		},
 		format_on_save = {
