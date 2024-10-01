@@ -50,16 +50,6 @@ return {
 			map("v", "<leader>gr", function()
 				gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
 			end, { desc = "[G]itsigns [R]eset line" })
-			map("n", "<leader>gS", gs.stage_buffer, { desc = "[G]itsigns: [S]tage buffer" })
-			map("n", "<leader>gR", gs.reset_buffer, { desc = "[G]itsigns: [R]eset buffer" })
-			map("n", "<leader>gd", gs.diffthis, { desc = "[G]itsigns: [D]iff" })
-			map("n", "<leader>gD", function()
-				gs.diffthis("~")
-			end, { desc = "[G]itsigns: [D]iff HEAD" })
-			map("n", "<leader>gq", gs.setqflist, { desc = "[G]itsigns: Populate [Q]uickfix List for current buffer" })
-			map("n", "<leader>gQ", function()
-				gs.setqflist("all")
-			end, { desc = "[G]itsigns: Populate [Q]uickfix List for repo" })
 		end,
 	},
 }
