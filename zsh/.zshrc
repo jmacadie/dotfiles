@@ -96,7 +96,7 @@ alias ls=eza
 alias ll="eza -la"
 alias lt="eza -a --tree"
 alias vim=nvim
-alias update="sudo apt update && sudo apt upgrade -y --allow-downgrades && sudo apt autoremove"
+alias update="sudo apt update && sudo apt upgrade -y --allow-downgrades && sudo apt autoremove -y"
 
 # Run my check versions script
 $HOME/.zsh/check_versions.sh
