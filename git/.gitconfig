@@ -22,6 +22,7 @@
 	sw = switch
 	b = branch
 	ps = push
+	psf = push --force-with-lease
 	pl = pull
 	f = !git remote update origin --prune && git fetch --tags
 	ff = merge --ff-only
