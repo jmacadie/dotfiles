@@ -7,7 +7,7 @@ vim.keymap.set("n", "<leader>gh", "<cmd>Git<cr>", { desc = "Vim Fugative: [G]it 
 vim.keymap.set(
 	"n",
 	"<leader>gl",
-	"<cmd>vertical Git log --pretty='format:%C(auto)%h %d %<|(60)%s %Cblue%aN, %ad' --date=format:'%a %Y-%m-%d %H:%I' --graph<cr>",
+	"<cmd>vertical Git log --pretty='format:%C(auto)%h %d %<|(70)%s %Cblue%aN, %ad' --date=format:'%a %Y-%m-%d %H:%I' --graph<cr>",
 	{ desc = "Vim Fugative: [G]it [L]og" }
 )
 vim.keymap.set("n", "<leader>gcl", "<cmd>vertical Git log %<cr>", { desc = "Vim Fugative: [G]it [C]urrent file [L]og" })
