@@ -48,6 +48,8 @@
 [interactive]
 	diffFilter = delta --color-only
 [pull]
-	rebase = false
+	ff = only
+[rebase]
+	autosqush = true
 [rerere]
 	enabled = true
