@@ -26,6 +26,7 @@ return {
 				end
 				vim.schedule(function()
 					gs.next_hunk()
+					vim.cmd("normal! zz")
 				end)
 				return "<Ignore>"
 			end, { expr = true, desc = "Gitsigns: Next Hunk" })
@@ -36,6 +37,7 @@ return {
 				end
 				vim.schedule(function()
 					gs.prev_hunk()
+					vim.cmd("normal! zz")
 				end)
 				return "<Ignore>"
 			end, { expr = true, desc = "Gitsigns: Previous Hunk" })
