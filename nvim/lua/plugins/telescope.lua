@@ -8,12 +8,13 @@ return {
 	-- [[ Configure Telescope ]]
 	-- See `:help telescope` and `:help telescope.setup()`
 	config = function()
+		local actions = require("telescope.actions")
 		require("telescope").setup({
 			defaults = {
 				mappings = {
 					i = {
 						["<C-u>"] = false,
-						["<C-d>"] = false,
+						["<C-d>"] = actions.delete_buffer + actions.move_to_top,
 					},
 				},
 			},
