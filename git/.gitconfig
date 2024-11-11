@@ -49,6 +49,7 @@
 	unstage = reset HEAD --
 [diff]
 	colorMoved = default
+	algorithm = histogram
 [merge]
 	conflictstyle = diff3
 [difftool]
