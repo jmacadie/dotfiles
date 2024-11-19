@@ -63,7 +63,13 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- Spell-check Markdown files and Git Commit Messages
 vim.api.nvim_command("autocmd FileType markdown setlocal spell")
 vim.api.nvim_command("autocmd FileType gitcommit setlocal spell")
-vim.api.nvim_command("autocmd FileType gitcommit setlocal textwidth=80")
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "gitcommit",
+	callback = function()
+		vim.bo.textwidth = 80
+		vim.opt_local.formatoptions:append("t")
+	end,
+})
 
 -- split right and below
 vim.o.splitright = true
