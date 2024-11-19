@@ -47,7 +47,7 @@ vim.wo.foldmethod = "expr"
 vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
 
 -- https://github.com/nvim-treesitter/nvim-treesitter/issues/1337#issuecomment-1397639999
-vim.api.nvim_create_autocmd({ "BufAdd" }, { pattern = { "*" }, command = "normal zx" })
+-- vim.api.nvim_create_autocmd({ "BufAdd" }, { pattern = { "*" }, command = "normal zx" })
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
