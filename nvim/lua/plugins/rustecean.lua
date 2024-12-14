@@ -24,6 +24,7 @@ return {
 					utils.nmap("<leader>rt", function()
 						vim.cmd.RustLsp("testables")
 					end, "[R]ust [T]estables")
+					vim.o.foldexpr = "v:lua.vim.lsp.foldexpr()"
 				end,
 				capabilities = utils.capabilities,
 				settings = {
