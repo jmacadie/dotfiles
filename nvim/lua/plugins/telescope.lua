@@ -21,6 +21,7 @@ return {
 		})
 
 		local tb = require("telescope.builtin")
+		local mg = require("multigrep")
 		local cbff = function()
 			-- You can pass additional configuration to telescope to change theme, layout, etc.
 			tb.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
@@ -38,7 +39,7 @@ return {
 		end, { desc = "[S]earch [A]ll files" })
 		vim.keymap.set("n", "<leader>sh", tb.help_tags, { desc = "[S]earch [H]elp" })
 		vim.keymap.set("n", "<leader>sw", tb.grep_string, { desc = "[S]earch current [W]ord" })
-		vim.keymap.set("n", "<leader>sg", tb.live_grep, { desc = "[S]earch by [G]rep" })
+		vim.keymap.set("n", "<leader>sg", mg.live_multigrep, { desc = "[S]earch by [G]rep" })
 		vim.keymap.set("n", "<leader>sd", tb.diagnostics, { desc = "[S]earch [D]iagnostics" })
 		vim.keymap.set("n", "<leader>st", tb.builtin, { desc = "[S]earch [T]elescope" })
 		vim.keymap.set("n", "<leader>ss", tb.resume, { desc = "[S]earch Re[s]umes" })
