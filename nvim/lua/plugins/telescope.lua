@@ -21,7 +21,7 @@ return {
 		})
 
 		local tb = require("telescope.builtin")
-		local mg = require("multigrep")
+		local mg = require("custom.multigrep")
 		local cbff = function()
 			-- You can pass additional configuration to telescope to change theme, layout, etc.
 			tb.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
