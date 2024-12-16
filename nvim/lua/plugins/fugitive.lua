@@ -10,10 +10,12 @@ vim.keymap.set(
 	"<cmd>vertical Git log --pretty='format:%C(auto)%h %d %<|(70)%s %Cblue%aN, %ad' --date=format:'%a %Y-%m-%d %H:%I' --graph<cr>",
 	{ desc = "Vim Fugative: [G]it [L]og" }
 )
--- vim.keymap.set("n", "<leader>gcl", "<cmd>vertical Git log %<cr>", { desc = "Vim Fugative: [G]it [C]urrent file [L]og" })
 vim.keymap.set("n", "<leader>gm", "<cmd>Gvdiffsplit!<cr>", { desc = "Vim Fugative: [G]it 3 Way [M]erge split" })
 vim.keymap.set("n", "<leader>ga", "<cmd>diffget //2<cr>", { desc = "[G]it: Get changes from <<<<< HEAD" })
 vim.keymap.set("n", "<leader>go", "<cmd>diffget //3<cr>", { desc = "[G]it: Get changes from Target >>>>>" })
+vim.keymap.set("n", "<leader>gq", require("custom.qf_diff").diff, { desc = "qf diff" })
+vim.keymap.set("n", "<ESC>j", require("custom.qf_diff").next, { desc = "qf diff next" })
+vim.keymap.set("n", "<ESC>k", require("custom.qf_diff").prev, { desc = "qf diff prev" })
 
 return {
 	"tpope/vim-fugitive",
