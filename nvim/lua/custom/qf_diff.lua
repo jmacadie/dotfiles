@@ -40,7 +40,6 @@ local function parse_diff_result(diff_list)
 			table.insert(parsed_result, {
 				filename = filename,
 				text = expanded_status,
-				lnum = 1,
 			})
 		end
 	end
@@ -48,10 +47,23 @@ local function parse_diff_result(diff_list)
 	return parsed_result
 end
 
+local function format_quickfix(info)
+	local result = {}
+
+	for _, item in ipairs(vim.fn.getqflist({ id = info.id, items = 0 }).items) do
+		local filename = item.bufnr and vim.fn.bufname(item.bufnr) or ""
+		local text = item.text or ""
+		table.insert(result, string.format("%s | %s", filename, text))
+	end
+
+	return result
+end
+
 local function populate_quickfix(parsed_files)
 	vim.fn.setqflist({}, "r", {
 		title = "Git Diff Files",
 		items = parsed_files,
+		quickfixtextfunc = format_quickfix,
 	})
 	vim.cmd("copen")
 end
@@ -60,14 +72,13 @@ M.diff = function()
 	local files = get_diff_files()
 	local parsed = parse_diff_result(files)
 	populate_quickfix(parsed)
-	-- print(vim.inspect(parsed))
 end
 
 local keep_one_window_and_qf_win = function()
 	local not_qf = {}
 
 	for _, window in ipairs(vim.fn.getwininfo()) do
-		if window.quickfix == 0 then
+		if window.quickfix == 0 and window.width > 1 then
 			table.insert(not_qf, window)
 		end
 	end
@@ -85,7 +96,7 @@ local keep_one_window_and_qf_win = function()
 	end
 
 	for _, window in ipairs(without_current) do
-		vim.cmd("bdelete " .. window.bufnr)
+		vim.cmd("bdelete!" .. window.bufnr)
 	end
 end
 

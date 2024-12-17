@@ -14,8 +14,8 @@ vim.keymap.set("n", "<leader>gm", "<cmd>Gvdiffsplit!<cr>", { desc = "Vim Fugativ
 vim.keymap.set("n", "<leader>ga", "<cmd>diffget //2<cr>", { desc = "[G]it: Get changes from <<<<< HEAD" })
 vim.keymap.set("n", "<leader>go", "<cmd>diffget //3<cr>", { desc = "[G]it: Get changes from Target >>>>>" })
 vim.keymap.set("n", "<leader>gq", require("custom.qf_diff").diff, { desc = "qf diff" })
-vim.keymap.set("n", "<ESC>j", require("custom.qf_diff").next, { desc = "qf diff next" })
-vim.keymap.set("n", "<ESC>k", require("custom.qf_diff").prev, { desc = "qf diff prev" })
+vim.keymap.set("n", "<C-j>", require("custom.qf_diff").next, { desc = "qf diff next" })
+vim.keymap.set("n", "<C-k>", require("custom.qf_diff").prev, { desc = "qf diff prev" })
 
 return {
 	"tpope/vim-fugitive",
