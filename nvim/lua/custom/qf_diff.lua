@@ -110,35 +110,55 @@ local function qf_diff_running()
 	return qf_title == "Git Diff Files"
 end
 
+local function cycle_qf_forward()
+	local at_end = (vim.fn.getqflist({ idx = 0 }).idx == vim.fn.getqflist({ size = 0 }).size)
+	if at_end then
+		vim.cmd("cfirst")
+	else
+		vim.cmd("cnext")
+	end
+end
+
+local function cycle_qf_backward()
+	local at_start = (vim.fn.getqflist({ idx = 0 }).idx == 1)
+	if at_start then
+		vim.cmd("clast")
+	else
+		vim.cmd("cprev")
+	end
+end
+
+local function diff_current_file()
+	vim.cmd("Gvdiff @{u}")
+	vim.cmd("wincmd p")
+end
+
 M.diff = function()
 	local files = get_diff_files()
 	populate_quickfix(files)
 	vim.cmd("copen")
 	organise_windows()
 	vim.cmd("cc")
-	vim.cmd("Gvdiff @{u}")
-	vim.cmd("wincmd p")
+	diff_current_file()
 end
 
 M.next = function()
 	if qf_diff_running() then
 		organise_windows()
-		vim.cmd("cnext")
-		vim.cmd("Gvdiff @{u}")
-		vim.cmd("wincmd p")
+		cycle_qf_forward()
+		diff_current_file()
 	else
-		vim.cmd("cnext")
+		cycle_qf_forward()
 	end
 end
 
 M.prev = function()
 	if qf_diff_running() then
 		organise_windows()
-		vim.cmd("cprev")
-		vim.cmd("Gvdiff @{u}")
-		vim.cmd("wincmd p")
+		cycle_qf_backward()
+		diff_current_file()
 	else
-		vim.cmd("cprev")
+		cycle_qf_backward()
 	end
 end
 
