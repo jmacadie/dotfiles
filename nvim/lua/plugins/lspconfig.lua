@@ -11,6 +11,7 @@ return {
 		"williamboman/mason.nvim",
 		"j-hui/fidget.nvim",
 		"folke/neodev.nvim",
+		"saghen/blink.cmp",
 	},
 	config = function()
 		local lsp = require("lspconfig")

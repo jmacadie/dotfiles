@@ -37,6 +37,6 @@ M.on_attach = function(_, bufnr)
 end
 
 local nvim_capabilities = vim.lsp.protocol.make_client_capabilities()
-M.capabilities = vim.tbl_deep_extend("force", nvim_capabilities, require("cmp_nvim_lsp").default_capabilities())
+M.capabilities = vim.tbl_deep_extend("force", nvim_capabilities, require("blink.cmp").get_lsp_capabilities())
 
 return M
