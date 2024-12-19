@@ -11,11 +11,14 @@ function new_session() {
       tmux send-keys -t $2:0 'poetry shell' C-m;
       tmux new-window -t $2 -n vim;
       tmux send-keys -t $2:1 'poetry shell' C-m;
+      tmux new-window -t $2 -n tests;
+      tmux send-keys -t $2:2 'poetry shell' C-m;
       ;;
     "aoc-rs")
       sleep 0.1;
       tmux rename-window -t $2:0 terminal;
       tmux new-window -t $2 -n vim;
+      tmux new-window -t $2 -n tests;
       ;;
   esac
 }
