@@ -6,13 +6,15 @@ function new_session() {
   # Special set-up for special sessions
   case $2 in
     "pyttg")
-      tmux rename-window -t $2:1 terminal;
-      tmux send-keys -t $2:1 'poetry shell' C-m;
+      sleep 0.1;
+      tmux rename-window -t $2:0 terminal;
+      tmux send-keys -t $2:0 'poetry shell' C-m;
       tmux new-window -t $2 -n vim;
-      tmux send-keys -t $2:2 'poetry shell' C-m;
+      tmux send-keys -t $2:1 'poetry shell' C-m;
       ;;
     "aoc-rs")
-      tmux rename-window -t $2:1 terminal;
+      sleep 0.1;
+      tmux rename-window -t $2:0 terminal;
       tmux new-window -t $2 -n vim;
       ;;
   esac
