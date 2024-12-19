@@ -21,13 +21,17 @@ return {
 		})
 
 		local tb = require("telescope.builtin")
+		local tt = require("telescope.themes")
 		local mg = require("custom.multigrep")
 		local cbff = function()
 			-- You can pass additional configuration to telescope to change theme, layout, etc.
-			tb.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
+			tb.current_buffer_fuzzy_find(tt.get_dropdown({
 				winblend = 10,
 				previewer = false,
 			}))
+		end
+		local spell = function()
+			tb.spell_suggest(tt.get_cursor({}))
 		end
 		-- See `:help telescope.builtin`
 		vim.keymap.set("n", "<leader>?", tb.oldfiles, { desc = "[?] Find recently opened files" })
@@ -44,6 +48,7 @@ return {
 		vim.keymap.set("n", "<leader>st", tb.builtin, { desc = "[S]earch [T]elescope" })
 		vim.keymap.set("n", "<leader>ss", tb.resume, { desc = "[S]earch Re[s]umes" })
 		vim.keymap.set("n", "<leader>sm", ":Telescope harpoon marks<CR>", { desc = "[S]earch Harpoon [M]arks" })
+		vim.keymap.set("n", "<leader>sp", spell, { desc = "Spelling suggestions" })
 	end,
 	keys = {
 		-- See `:help telescope.builtin`
