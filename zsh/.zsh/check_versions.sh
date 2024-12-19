@@ -137,4 +137,12 @@ if to_run; then
   latest_date=$(date "$details")
   installed=$(bat --version | rg "^bat [0-9]" | sed "s/^bat /v/" | sed "s/ ([0-9a-f]\+)$//")
   run_check "bat" $installed $latest $latest_date $url
+
+  # atuin
+  url="https://github.com/atuinsh/atuin/releases"
+  details=$(api "$url" "^[0-9]")
+  latest=$(version "$details")
+  latest_date=$(date "$details")
+  installed=$(atuin --version | rg "^atuin [0-9]" | sed "s/^atuin //")
+  run_check "atuin" $installed $latest $latest_date $url
 fi

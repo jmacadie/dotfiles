@@ -113,3 +113,7 @@ export PYENV_ROOT="$HOME/.pyenv"
 eval "$(pyenv init -)"
 
 fortune | cowsay
+
+. "$HOME/.atuin/bin/env"
+
+eval "$(atuin init zsh)"
