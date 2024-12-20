@@ -1,6 +1,6 @@
 local M = {}
 
-M.on_attach = function(_, bufnr)
+M.on_attach = function(client, bufnr)
 	M.nmap = function(keys, func, desc)
 		if desc then
 			desc = "LSP: " .. desc
@@ -13,6 +13,8 @@ M.on_attach = function(_, bufnr)
 	M.nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 	M.nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
 	M.nmap("<leader>sr", require("telescope.builtin").lsp_references, "[S]earch [R]eferences")
+	M.nmap("<leader>si", require("telescope.builtin").lsp_incoming_calls, "[S]earch [I]ncoming Call Hierachy")
+	M.nmap("<leader>so", require("telescope.builtin").lsp_outgoing_calls, "[S]earch [O]utgoing Call Hierachy")
 	M.nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
 	M.nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
 	M.nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
@@ -29,6 +31,9 @@ M.on_attach = function(_, bufnr)
 	M.nmap("<leader>q", vim.diagnostic.setloclist, "Open diagnostics list")
 	M.nmap("K", vim.lsp.buf.hover, "Hover Documentation")
 	M.nmap("<A-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+	M.nmap("<leader>xx", function()
+		require("custom.incoming").x(client, bufnr)
+	end, "E[x]tra Special")
 
 	-- Create a command `:Format` local to the LSP buffer
 	vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
