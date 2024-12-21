@@ -58,6 +58,7 @@ local make_request = function(method, params, callback)
 	end, _bufnr)
 end
 
+-- https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#callHierarchy_incomingCalls
 local get_children = function(root, callback)
 	local prepare_method = "textDocument/prepareCallHierarchy"
 	local clients = vim.lsp.get_clients({ bufnr = _bufnr, method = prepare_method })
@@ -70,13 +71,30 @@ local get_children = function(root, callback)
 	end
 end
 
--- https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#callHierarchy_incomingCalls
 M.x = function(client, bufnr)
 	_client = client
 	_bufnr = bufnr
 	local current_position = vim.lsp.util.make_position_params(0, _client.offset_encoding)
 	get_children(current_position, function(result)
-		create_floating_scratch_buffer(result)
+		local output = {}
+		for _, call in ipairs(result) do
+			local item = call["from"]
+			for _, range in ipairs(call.fromRanges) do
+				table.insert(output, {
+					filename = vim.uri_to_fname(item.uri),
+					text = item.name,
+					lnum = range.start.line + 1,
+					col = range.start.character + 1,
+					child_search = {
+						textDocument = {
+							uri = item.uri,
+						},
+						position = item.range.start,
+					},
+				})
+			end
+		end
+		create_floating_scratch_buffer(output)
 	end)
 end
 
