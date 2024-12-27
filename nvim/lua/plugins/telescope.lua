@@ -38,6 +38,7 @@ return {
 		vim.keymap.set("n", "<leader><space>", tb.buffers, { desc = "[ ] Find existing buffers" })
 		vim.keymap.set("n", "<leader>/", cbff, { desc = "[/] Fuzzily search in current buffer" })
 		vim.keymap.set("n", "<leader>sf", tb.find_files, { desc = "[S]earch [F]iles" })
+		vim.keymap.set("n", "<leader>sj", tb.oldfiles, { desc = "[S]earch [J]old Files" })
 		vim.keymap.set("n", "<leader>sa", function()
 			tb.find_files({ hidden = true, no_ignore = true })
 		end, { desc = "[S]earch [A]ll files" })
