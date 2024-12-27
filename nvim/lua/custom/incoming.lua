@@ -41,8 +41,27 @@ local create_floating_scratch_buffer = function()
 
 	-- vim.api.nvim_buf_set_keymap(float_buf, "n", "<DOWN>", move_down, { noremap = true, silent = true })
 	-- vim.api.nvim_buf_set_keymap(float_buf, "n", "<UP>", move_up, { noremap = true, silent = true })
-	-- vim.api.nvim_buf_set_keymap(float_buf, "n", "<RIGHT>", expand_current_node, { noremap = true, silent = true })
-	-- vim.api.nvim_buf_set_keymap(float_buf, "n", "<LEFT>", collapse_current_node, { noremap = true, silent = true })
+	vim.api.nvim_buf_set_keymap(
+		float_buf,
+		"n",
+		"<RIGHT>",
+		"<cmd>lua require('custom.incoming').expand_current_node()<CR>",
+		{ noremap = true, silent = true }
+	)
+	vim.api.nvim_buf_set_keymap(
+		float_buf,
+		"n",
+		"<LEFT>",
+		"<cmd>lua require('custom.incoming').collapse_current_node()<CR>",
+		{ noremap = true, silent = true }
+	)
+	vim.api.nvim_buf_set_keymap(
+		float_buf,
+		"n",
+		"gh",
+		"<cmd>lua require('custom.incoming').debug()<CR>",
+		{ noremap = true, silent = true }
+	)
 end
 
 local add_node_lines
@@ -65,6 +84,12 @@ local write_call_window = function()
 
 	local lines = {}
 	add_node_lines(node, "", lines)
+	vim.api.nvim_buf_set_lines(float_buf, 0, -1, false, lines)
+end
+
+M.debug = function()
+	local data = vim.inspect(nodes)
+	local lines = vim.split(data, "\n", { plain = true })
 	vim.api.nvim_buf_set_lines(float_buf, 0, -1, false, lines)
 end
 
@@ -115,13 +140,14 @@ local create_node = function(uri, text, lnum, col, search_loc)
 	}
 end
 
-local expand_current_node = function()
+M.expand_current_node = function()
 	local node = nodes.current
 	if node == nil or node.expanded then
 		return
 	end
 	if node.searched then
 		node.expanded = true
+		write_call_window()
 		return
 	end
 
@@ -149,7 +175,7 @@ local expand_current_node = function()
 	end)
 end
 
-local collapse_current_node = function()
+M.collapse_current_node = function()
 	local node = nodes.current
 	if node == nil or not node.expanded then
 		return
@@ -174,7 +200,7 @@ M.x = function(client, bufnr)
 
 	initialise_nodes()
 	create_floating_scratch_buffer()
-	expand_current_node()
+	M.expand_current_node()
 end
 
 return M
