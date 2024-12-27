@@ -1,27 +1,25 @@
 M = {}
 
-local client
-local bufnr
+local lsp_client
+local code_buf
+local float_buf
 local nodes = {
 	root = nil,
 	current = nil,
 }
 
-local create_floating_scratch_buffer = function(data)
-	-- Create a new scratch buffer
-	local buf = vim.api.nvim_create_buf(false, true) -- unlisted, scratch
-	if not buf then
+local create_floating_scratch_buffer = function()
+	float_buf = vim.api.nvim_create_buf(false, true)
+	if not float_buf then
 		vim.notify("Failed to create buffer", vim.log.levels.ERROR)
 		return
 	end
 
-	-- Configure floating window dimensions
-	local width = math.floor(vim.o.columns * 0.5) -- 50% of screen width
-	local height = math.floor(vim.o.lines * 0.7) -- 70% of screen height
-	local row = math.floor((vim.o.lines - height) / 2) -- Center vertically
-	local col = math.floor((vim.o.columns - width) / 2) -- Center horizontally
+	local width = math.floor(vim.o.columns * 0.5)
+	local height = math.floor(vim.o.lines * 0.7)
+	local row = math.floor((vim.o.lines - height) / 2)
+	local col = math.floor((vim.o.columns - width) / 2)
 
-	-- Floating window options
 	local opts = {
 		style = "minimal",
 		relative = "editor",
@@ -29,29 +27,27 @@ local create_floating_scratch_buffer = function(data)
 		height = height,
 		row = row,
 		col = col,
-		border = "rounded", -- Optional: rounded, single, double, shadow, none
+		border = "rounded",
 	}
 
-	-- Open the floating window
-	local win = vim.api.nvim_open_win(buf, true, opts) -- Focus the window
+	local win = vim.api.nvim_open_win(float_buf, true, opts)
 	if not win then
 		vim.notify("Failed to create floating window", vim.log.levels.ERROR)
 		return
 	end
 
-	-- Use vim.inspect to convert the table to a string
-	local inspected_data = vim.inspect(data)
+	vim.api.nvim_buf_set_keymap(float_buf, "n", "q", "<cmd>bd!<CR>", { noremap = true, silent = true })
+end
 
-	-- Set the buffer content to the inspected data
-	local lines = vim.split(inspected_data, "\n", { plain = true })
-	vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
-
-	-- Optional: Map `q` to close the floating window
-	vim.api.nvim_buf_set_keymap(buf, "n", "q", "<cmd>bd!<CR>", { noremap = true, silent = true })
+local write_call_window = function()
+	print("Writing")
+	local data = vim.inspect(nodes)
+	local lines = vim.split(data, "\n", { plain = true })
+	vim.api.nvim_buf_set_lines(float_buf, 0, -1, false, lines)
 end
 
 local make_request = function(method, params, callback)
-	client:request(method, params, function(err, result)
+	lsp_client:request(method, params, function(err, result)
 		if err then
 			vim.notify(err, vim.log.levels.ERROR)
 			return
@@ -60,15 +56,26 @@ local make_request = function(method, params, callback)
 			return
 		end
 		callback(result)
-	end, bufnr)
+	end, code_buf)
 end
 
 -- https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#callHierarchy_incomingCalls
 local get_children = function(root, callback)
-	local prepare_method = "textDocument/prepareCallHierarchy"
-	local clients = vim.lsp.get_clients({ bufnr = bufnr, method = prepare_method })
-	if vim.tbl_contains(clients, client) then
-		make_request(prepare_method, root.search_loc, function(results)
+	print("Get children")
+	local node = nodes.current
+	if node == nil then
+		return
+	end
+
+	local prepare = "textDocument/prepareCallHierarchy"
+	local clients = vim.lsp.get_clients({ bufnr = code_buf, method = prepare })
+	if vim.tbl_contains(clients, lsp_client) then
+		print("Preparing")
+		print(vim.inspect(node))
+		make_request(prepare, node.search_loc, function(results)
+			if root then
+				node.text = results[1].name
+			end
 			for _, item in ipairs(results) do
 				make_request("callHierarchy/incomingCalls", { item = item }, callback)
 			end
@@ -99,7 +106,9 @@ local expand_current_node = function()
 		return
 	end
 
-	get_children(node, function(result)
+	local at_root = (nodes.current == nodes.root)
+
+	get_children(at_root, function(result)
 		for _, call in ipairs(result) do
 			local item = call["from"]
 			for _, range in ipairs(call.fromRanges) do
@@ -115,11 +124,14 @@ local expand_current_node = function()
 				)
 			end
 		end
-		create_floating_scratch_buffer(nodes)
+		node.searched = true
+		node.expanded = true
+		write_call_window()
 	end)
 end
 
-local initialise_nodes = function(current_position)
+local initialise_nodes = function()
+	local current_position = vim.lsp.util.make_position_params(0, lsp_client.offset_encoding)
 	local uri = current_position.textDocument.uri
 	local lnum = current_position.position.line + 1
 	local col = current_position.position.character + 1
@@ -127,12 +139,12 @@ local initialise_nodes = function(current_position)
 	nodes.current = nodes.root
 end
 
-M.x = function(c, b)
-	client = c
-	bufnr = b
+M.x = function(client, bufnr)
+	lsp_client = client
+	code_buf = bufnr
 
-	local current_position = vim.lsp.util.make_position_params(0, client.offset_encoding)
-	initialise_nodes(current_position)
+	initialise_nodes()
+	create_floating_scratch_buffer()
 	expand_current_node()
 end
 
