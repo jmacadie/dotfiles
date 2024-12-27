@@ -37,12 +37,34 @@ local create_floating_scratch_buffer = function()
 	end
 
 	vim.api.nvim_buf_set_keymap(float_buf, "n", "q", "<cmd>bd!<CR>", { noremap = true, silent = true })
+	vim.api.nvim_buf_set_keymap(float_buf, "n", "<ESC>", "<cmd>bd!<CR>", { noremap = true, silent = true })
+
+	-- vim.api.nvim_buf_set_keymap(float_buf, "n", "<DOWN>", move_down, { noremap = true, silent = true })
+	-- vim.api.nvim_buf_set_keymap(float_buf, "n", "<UP>", move_up, { noremap = true, silent = true })
+	-- vim.api.nvim_buf_set_keymap(float_buf, "n", "<RIGHT>", expand_current_node, { noremap = true, silent = true })
+	-- vim.api.nvim_buf_set_keymap(float_buf, "n", "<LEFT>", collapse_current_node, { noremap = true, silent = true })
+end
+
+local add_node_lines
+add_node_lines = function(node, prefix, lines)
+	table.insert(lines, prefix .. node.text)
+	if node.expanded then
+		local inner_prefix = "  " .. prefix
+		for _, child in ipairs(node.children) do
+			add_node_lines(child, inner_prefix, lines)
+		end
+	end
 end
 
 local write_call_window = function()
-	print("Writing")
-	local data = vim.inspect(nodes)
-	local lines = vim.split(data, "\n", { plain = true })
+	local node = nodes.root
+	if node == nil then
+		vim.api.nvim_buf_set_lines(float_buf, 0, -1, false, {})
+		return
+	end
+
+	local lines = {}
+	add_node_lines(node, "", lines)
 	vim.api.nvim_buf_set_lines(float_buf, 0, -1, false, lines)
 end
 
@@ -61,7 +83,6 @@ end
 
 -- https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#callHierarchy_incomingCalls
 local get_children = function(root, callback)
-	print("Get children")
 	local node = nodes.current
 	if node == nil then
 		return
@@ -70,8 +91,6 @@ local get_children = function(root, callback)
 	local prepare = "textDocument/prepareCallHierarchy"
 	local clients = vim.lsp.get_clients({ bufnr = code_buf, method = prepare })
 	if vim.tbl_contains(clients, lsp_client) then
-		print("Preparing")
-		print(vim.inspect(node))
 		make_request(prepare, node.search_loc, function(results)
 			if root then
 				node.text = results[1].name
@@ -128,6 +147,16 @@ local expand_current_node = function()
 		node.expanded = true
 		write_call_window()
 	end)
+end
+
+local collapse_current_node = function()
+	local node = nodes.current
+	if node == nil or not node.expanded then
+		return
+	end
+
+	node.expanded = false
+	write_call_window()
 end
 
 local initialise_nodes = function()
