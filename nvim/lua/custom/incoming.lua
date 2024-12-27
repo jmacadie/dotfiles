@@ -1,6 +1,11 @@
 M = {}
-local _client
-local _bufnr
+
+local client
+local bufnr
+local nodes = {
+	root = nil,
+	current = nil,
+}
 
 local create_floating_scratch_buffer = function(data)
 	-- Create a new scratch buffer
@@ -46,7 +51,7 @@ local create_floating_scratch_buffer = function(data)
 end
 
 local make_request = function(method, params, callback)
-	_client:request(method, params, function(err, result)
+	client:request(method, params, function(err, result)
 		if err then
 			vim.notify(err, vim.log.levels.ERROR)
 			return
@@ -55,15 +60,15 @@ local make_request = function(method, params, callback)
 			return
 		end
 		callback(result)
-	end, _bufnr)
+	end, bufnr)
 end
 
 -- https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#callHierarchy_incomingCalls
 local get_children = function(root, callback)
 	local prepare_method = "textDocument/prepareCallHierarchy"
-	local clients = vim.lsp.get_clients({ bufnr = _bufnr, method = prepare_method })
-	if vim.tbl_contains(clients, _client) then
-		make_request(prepare_method, root, function(results)
+	local clients = vim.lsp.get_clients({ bufnr = bufnr, method = prepare_method })
+	if vim.tbl_contains(clients, client) then
+		make_request(prepare_method, root.search_loc, function(results)
 			for _, item in ipairs(results) do
 				make_request("callHierarchy/incomingCalls", { item = item }, callback)
 			end
@@ -71,31 +76,64 @@ local get_children = function(root, callback)
 	end
 end
 
-M.x = function(client, bufnr)
-	_client = client
-	_bufnr = bufnr
-	local current_position = vim.lsp.util.make_position_params(0, _client.offset_encoding)
-	get_children(current_position, function(result)
-		local output = {}
+local create_node = function(uri, text, lnum, col, search_loc)
+	return {
+		filename = vim.uri_to_fname(uri),
+		text = text,
+		lnum = lnum,
+		col = col,
+		search_loc = search_loc,
+		searched = false,
+		expanded = false,
+		children = {},
+	}
+end
+
+local expand_current_node = function()
+	local node = nodes.current
+	if node == nil or node.expanded then
+		return
+	end
+	if node.searched then
+		node.expanded = true
+		return
+	end
+
+	get_children(node, function(result)
 		for _, call in ipairs(result) do
 			local item = call["from"]
 			for _, range in ipairs(call.fromRanges) do
-				table.insert(output, {
-					filename = vim.uri_to_fname(item.uri),
-					text = item.name,
-					lnum = range.start.line + 1,
-					col = range.start.character + 1,
-					child_search = {
-						textDocument = {
-							uri = item.uri,
-						},
-						position = item.range.start,
+				local loc = {
+					textDocument = {
+						uri = item.uri,
 					},
-				})
+					position = item.range.start,
+				}
+				table.insert(
+					node.children,
+					create_node(item.uri, item.name, range.start.line + 1, range.start.character + 1, loc)
+				)
 			end
 		end
-		create_floating_scratch_buffer(output)
+		create_floating_scratch_buffer(nodes)
 	end)
+end
+
+local initialise_nodes = function(current_position)
+	local uri = current_position.textDocument.uri
+	local lnum = current_position.position.line + 1
+	local col = current_position.position.character + 1
+	nodes.root = create_node(uri, "", lnum, col, current_position)
+	nodes.current = nodes.root
+end
+
+M.x = function(c, b)
+	client = c
+	bufnr = b
+
+	local current_position = vim.lsp.util.make_position_params(0, client.offset_encoding)
+	initialise_nodes(current_position)
+	expand_current_node()
 end
 
 return M
