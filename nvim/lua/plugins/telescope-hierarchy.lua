@@ -1,6 +1,6 @@
 return {
 	"jmacadie/telescope-hierarchy.nvim",
-	-- dir = "/home/james/plugins/telescope-hierarchy.nvim",
+	-- dir = "/home/james/code/telescope-hierarchy.nvim",
 	dependencies = { -- note how they're inverted to above example
 		{
 			"nvim-telescope/telescope.nvim",
