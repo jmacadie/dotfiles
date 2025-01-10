@@ -8,11 +8,11 @@ function new_session() {
     "pyttg")
       sleep 0.1;
       tmux rename-window -t $2:0 terminal;
-      tmux send-keys -t $2:0 'poetry shell' C-m;
+      tmux send-keys -t $2:0 'eval $(poetry env activate)' C-m;
       tmux new-window -t $2 -n vim;
-      tmux send-keys -t $2:1 'poetry shell' C-m;
+      tmux send-keys -t $2:1 'eval $(poetry env activate)' C-m;
       tmux new-window -t $2 -n tests;
-      tmux send-keys -t $2:2 'poetry shell' C-m;
+      tmux send-keys -t $2:2 'eval $(poetry env activate)' C-m;
       ;;
     "aoc-rs")
       sleep 0.1;
