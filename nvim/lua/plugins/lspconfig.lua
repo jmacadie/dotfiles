@@ -10,8 +10,36 @@ return {
 	dependencies = {
 		"williamboman/mason.nvim",
 		"j-hui/fidget.nvim",
-		"folke/neodev.nvim",
+		-- "folke/neodev.nvim",
 		"saghen/blink.cmp",
+		{
+			"folke/lazydev.nvim",
+			ft = "lua", -- only load on lua files
+			opts = {
+				library = {
+					-- See the configuration section for more details
+					-- Load luvit types when the `vim.uv` word is found
+					{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+				},
+			},
+		},
+		{ -- optional blink completion source for require statements and module annotations
+			"saghen/blink.cmp",
+			opts = {
+				sources = {
+					-- add lazydev to your completion providers
+					default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+					providers = {
+						lazydev = {
+							name = "LazyDev",
+							module = "lazydev.integrations.blink",
+							-- make lazydev completions top priority (see `:h blink.cmp`)
+							score_offset = 100,
+						},
+					},
+				},
+			},
+		},
 	},
 	config = function()
 		local lsp = require("lspconfig")
@@ -19,7 +47,6 @@ return {
 		lsp.lua_ls.setup({
 			on_attach = utils.on_attach,
 			capabilities = utils.capabilities,
-			settings = require("plugins.lsp.lua-ls"),
 		})
 
 		lsp.pyright.setup({
