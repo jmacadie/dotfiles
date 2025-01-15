@@ -143,6 +143,6 @@ if to_run; then
   details=$(api "$url" "^[0-9]")
   latest=$(version "$details")
   latest_date=$(date "$details")
-  installed=$(atuin --version | rg "^atuin [0-9]" | sed "s/^atuin //")
+  installed=$(atuin -V | rg "^atuin [0-9]" | sed "s/^atuin //")
   run_check "atuin" $installed $latest $latest_date $url
 fi
