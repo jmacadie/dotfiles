@@ -3,22 +3,21 @@
 function new_session() {
   cd $1
   tmux new-session -d -s $2
+
+  sleep 0.1;
+  tmux rename-window -t $2:0 terminal;
+  tmux new-window -t $2 -n vim;
+  tmux new-window -t $2 -n tests;
+
+  tmux select-window -t $2:1; # So the 'last' window is properly set
+  tmux select-window -t $2:0;
+
   # Special set-up for special sessions
   case $2 in
     "pyttg")
-      sleep 0.1;
-      tmux rename-window -t $2:0 terminal;
       tmux send-keys -t $2:0 'eval $(poetry env activate)' C-m;
-      tmux new-window -t $2 -n vim;
       tmux send-keys -t $2:1 'eval $(poetry env activate)' C-m;
-      tmux new-window -t $2 -n tests;
       tmux send-keys -t $2:2 'eval $(poetry env activate)' C-m;
-      ;;
-    "aoc-rs")
-      sleep 0.1;
-      tmux rename-window -t $2:0 terminal;
-      tmux new-window -t $2 -n vim;
-      tmux new-window -t $2 -n tests;
       ;;
   esac
 }
