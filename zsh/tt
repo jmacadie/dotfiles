@@ -32,6 +32,7 @@ fi
 
 # Get folder name
 FOLDER=$(basename $ZOXIDE_RESULT)
+FOLDER=${FOLDER/\./_}
 
 # Lookup tmux session name
 SESSION=$(tmux list-sessions | grep $FOLDER | awk '{print $1}')
