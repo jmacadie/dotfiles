@@ -1,6 +1,6 @@
 return {
-	"jmacadie/telescope-hierarchy.nvim",
-	-- dir = "/home/james/code/telescope-hierarchy.nvim",
+	-- "jmacadie/telescope-hierarchy.nvim",
+	dir = "/home/james/code/telescope-hierarchy.nvim",
 	dependencies = { -- note how they're inverted to above example
 		{
 			"nvim-telescope/telescope.nvim",
@@ -10,8 +10,13 @@ return {
 	keys = {
 		{ -- lazy style key map
 			"<leader>si",
-			"<cmd>Telescope hierarchy<cr>",
+			"<cmd>Telescope hierarchy incoming_calls<cr>",
 			desc = "[S]earch [I]ncoming Calls",
+		},
+		{ -- lazy style key map
+			"<leader>so",
+			"<cmd>Telescope hierarchy outgoing_calls<cr>",
+			desc = "[S]earch [O]utgoing Calls",
 		},
 	},
 	opts = {

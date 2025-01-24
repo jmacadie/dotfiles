@@ -1,4 +1,5 @@
 -- [[ Configure LSP ]]
+---@module "lspconfig"
 
 local utils = require("plugins.lsp.util")
 
@@ -49,11 +50,17 @@ return {
 			capabilities = utils.capabilities,
 		})
 
-		lsp.pyright.setup({
+		lsp.basedpyright.setup({
 			on_attach = utils.on_attach,
 			capabilities = utils.capabilities,
 			filetypes = { "python" },
 		})
+
+		-- lsp.pyright.setup({
+		-- 	on_attach = utils.on_attach,
+		-- 	capabilities = utils.capabilities,
+		-- 	filetypes = { "python" },
+		-- })
 
 		lsp.ruby_lsp.setup({
 			on_attach = utils.on_attach,
