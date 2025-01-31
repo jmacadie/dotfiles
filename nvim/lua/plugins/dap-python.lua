@@ -67,7 +67,7 @@ local dap = {
 			desc = "DAP: Step Over",
 		},
 		{
-			"<F11>",
+			"<F9>",
 			function()
 				require("dap").step_into()
 			end,
