@@ -11,7 +11,7 @@
 	default = simple
 [alias]
 	s = status
-	l = log --pretty='format:%C(auto)%h %d %<|(120)%s %Cblue%aN, %ad' --date=format:'%a %Y-%m-%d %H:%I' --graph --date-order
+	l = log --pretty='format:%C(auto)%h %d %<|(120,trunc)%s %Cblue%aN, %ad' --date=format:'%a %Y-%m-%d %H:%I' --graph --date-order
 	ll = "!f() { \
 		comparison_branch=$( \
 		    for branch in origin/development development origin/main main origin/master master; do \
