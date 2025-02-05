@@ -14,6 +14,7 @@ vim.keymap.set("n", "<leader>gm", "<cmd>Gvdiffsplit!<cr>", { desc = "Vim Fugativ
 vim.keymap.set("n", "<leader>ga", "<cmd>diffget //2<cr>", { desc = "[G]it: Get changes from <<<<< HEAD" })
 vim.keymap.set("n", "<leader>go", "<cmd>diffget //3<cr>", { desc = "[G]it: Get changes from Target >>>>>" })
 vim.keymap.set("n", "<leader>gq", require("custom.qf_diff").diff, { desc = "qf diff" })
+vim.keymap.set("n", "<leader>gz", ':lua require("custom.qf_diff").diff("")<left><left>', { desc = "qf diff (choose)" })
 vim.keymap.set("n", "<C-j>", require("custom.qf_diff").next, { desc = "qf diff next" })
 vim.keymap.set("n", "<C-k>", require("custom.qf_diff").prev, { desc = "qf diff prev" })
 
