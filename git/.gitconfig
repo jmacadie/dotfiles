@@ -15,10 +15,10 @@
 	ll = "!f() { \
 		comparison_branch=$( \
 		    for branch in origin/development development origin/main main origin/master master; do \
-			if git show-ref --verify --quiet refs/remotes/$branch || git show-ref --verify --quiet refs/heads/$branch; then \
-			    echo $branch; \
-			    break; \
-			fi; \
+					if git show-ref --verify --quiet refs/remotes/$branch || git show-ref --verify --quiet refs/heads/$branch; then \
+							echo $branch; \
+							break; \
+					fi; \
 		    done \
 		); \
 		if [ $# -eq 0 ]; then \
@@ -31,8 +31,13 @@
 			a=$2; \
 			b=$1; \
 		fi; \
-		root_commit=$(git rev-list $a --not $b --reverse | head -n 1); \
-		git l ^$root_commit~2 $a $b; \
+		commits=$(git rev-list $a --not $b --max-count=1); \
+		if [ -z $commits ]; then \
+			git l ^$a~ $a; \
+		else \
+			root_commit=$(git rev-list $a --not $b --reverse | head -n 1); \
+			git l ^$root_commit~2 $a $b; \
+		fi; \
 		}; f"
 	a = add -i
 	aa = add .
@@ -46,10 +51,10 @@
 	bl = "!f() { \
 		comparison_branch=$( \
 		    for branch in origin/development development origin/main main origin/master master; do \
-			if git show-ref --verify --quiet refs/remotes/$branch || git show-ref --verify --quiet refs/heads/$branch; then \
-			    echo $branch; \
-			    break; \
-			fi; \
+					if git show-ref --verify --quiet refs/remotes/$branch || git show-ref --verify --quiet refs/heads/$branch; then \
+							echo $branch; \
+							break; \
+					fi; \
 		    done \
 		); \
 		if [ -z \"$comparison_branch\" ]; then \
