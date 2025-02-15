@@ -8,7 +8,7 @@
 	status = auto
 	branch = auto
 [push]
-	default = simple
+	default = current
 [alias]
 	s = status
 	l = log --pretty='format:%C(auto)%h %d %<|(120,trunc)%s %Cblue%aN, %ad' --date=format:'%a %Y-%m-%d %H:%I' --graph --date-order
@@ -45,7 +45,6 @@
 	ds = diff --staged
 	dn = diff --stat
 	c = commit
-	co = checkout
 	sw = switch
 	b = branch
 	bl = "!f() { \
@@ -74,6 +73,17 @@
 	logs = log --stat
 	nuke = !git reset --hard && git clean -f -d
 	unstage = reset HEAD --
+	co = "!f() { \
+        if [ -z $1 ]; then \
+            echo 'Usage: git co <remote-branch>'; \
+            exit 1; \
+        fi; \
+        git switch \"$1\"; \
+        git branch --set-upstream-to=origin/development \"$1\"; \
+        git config branch.\"$1\".pushRemote origin; \
+        git config branch.\"$1\".push \"refs/heads/$1\"; \
+    }; f"
+	sync = reset --hard @{push}
 [diff]
 	colorMoved = default
 	algorithm = histogram
