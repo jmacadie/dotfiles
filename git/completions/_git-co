@@ -1,0 +1,5 @@
+#compdef git-co=git
+
+_git-co() {
+  _git-switch
+}

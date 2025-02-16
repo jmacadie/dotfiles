@@ -1,0 +1,12 @@
+#compdef git-ll=git
+
+_git-ll() {
+  _arguments -C \
+    '::first revision:_git_any_revisions' \
+    '::second revision:_git_any_revisions' \
+    '*:: :->too_many_args'
+
+  if [[ $state = too_many_args ]]; then
+    _message 'No more than 2 revisions allowed'
+  fi
+}

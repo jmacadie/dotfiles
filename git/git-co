@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [ -z $1 ]; then
+  echo 'Usage: git co <branch>'
+  exit 1
+fi
+
+git switch $1 > /dev/null || exit $?
+git branch --set-upstream-to=origin/development $1 > /dev/null || exit $?
+git config branch.$1.pushRemote origin > /dev/null || exit $?
+git config branch.$1.push "refs/heads/$1" > /dev/null || exit $?
+
+upstream=$(git rev-parse --symbolic-full-name @{u})
+push=$(git rev-parse --symbolic-full-name @{push})
+echo "Upstream tracking: '$upstream'"
+echo "Push to: '$push'"

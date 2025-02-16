@@ -109,11 +109,10 @@ export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
-fortune | cowsay
-
-. "$HOME/.atuin/bin/env"
-
+source "$HOME/.atuin/bin/env"
 eval "$(atuin init zsh)"
+
+fortune | cowsay
 
 # Run my check versions script
 $HOME/.zsh/check_versions.sh
