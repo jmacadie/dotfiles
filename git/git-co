@@ -1,16 +1,33 @@
 #!/bin/bash
 
-if [ -z $1 ]; then
+if [[ -z $1 ]]; then
   echo 'Usage: git co <branch>'
   exit 1
 fi
 
-git switch $1 > /dev/null || exit $?
+if [[ $(git rev-parse --quiet --verify $1) ]]; then
+  echo "Local branch already exists, switching to it"
+  git switch $1 > /dev/null || exit $?
+else
+  if [[ $(git rev-parse --quiet --verify "origin/$1") ]]; then
+    echo "Creating local branch from remote"
+    git switch $1 > /dev/null || exit $?
+  else
+    echo "Creating new local branch"
+    git switch -c $1 > /dev/null || exit $?
+  fi
+fi
+
 git branch --set-upstream-to=origin/development $1 > /dev/null || exit $?
 git config branch.$1.pushRemote origin > /dev/null || exit $?
 git config branch.$1.push "refs/heads/$1" > /dev/null || exit $?
 
 upstream=$(git rev-parse --symbolic-full-name @{u})
-push=$(git rev-parse --symbolic-full-name @{push})
 echo "Upstream tracking: '$upstream'"
-echo "Push to: '$push'"
+
+if git show-ref --verify --quiet "refs/heads/$1"; then
+  echo "Push branch not yet on remote. Will be called $1"
+else
+  push=$(git rev-parse --symbolic-full-name @{push})
+  echo "Push to: '$push'"
+fi
