@@ -20,6 +20,7 @@ rm -f $HOME/.local/bin/tt
 rm -f $HOME/.local/bin/gbt
 rm -f $HOME/.local/bin/git-co
 rm -f $HOME/.local/bin/git-ll
+rm -f $HOME/.local/bin/git-bl
 rm -f $HOME/.oh-my-zsh/custom/completions/_git-co
 rm -f $HOME/.oh-my-zsh/custom/completions/_git-ll
 rm -f $HOME/.config/starship.toml
@@ -29,6 +30,7 @@ rm -rf $HOME/.config/nvim
 ln -s $DIR/git/.gitconfig $HOME/.gitconfig
 ln -s $DIR/git/git-co $HOME/.local/bin/git-co
 ln -s $DIR/git/git-ll $HOME/.local/bin/git-ll
+ln -s $DIR/git/git-bl $HOME/.local/bin/git-bl
 ln -s $DIR/git/completions/_git-co $HOME/.oh-my-zsh/custom/completions/_git-co
 ln -s $DIR/git/completions/_git-ll $HOME/.oh-my-zsh/custom/completions/_git-ll
 ln -s $DIR/tmux/.tmux.conf $HOME/.tmux.conf

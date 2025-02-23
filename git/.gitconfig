@@ -20,23 +20,6 @@
 	c = commit
 	sw = switch
 	b = branch
-	bl = "!f() { \
-		comparison_branch=$( \
-		    for branch in origin/development development origin/main main origin/master master; do \
-					if git show-ref --verify --quiet refs/remotes/$branch || git show-ref --verify --quiet refs/heads/$branch; then \
-							echo $branch; \
-							break; \
-					fi; \
-		    done \
-		); \
-		if [ -z \"$comparison_branch\" ]; then \
-		    echo \"No reference branch found from the specified list.\" >&2; \
-		    return 1; \
-		fi; \
-		echo \"  Branch                                   | Last Commit                               | Ahead / behind '$comparison_branch'\"; \
-		echo \"  ---------------------------------------- | ----------------------------------------- | ---------------------------------\"; \
-		git for-each-ref --sort=-committerdate --format=\"%(if)%(HEAD)%(then)* %(else)  %(end)%(if:equals=refs/remotes)%(refname:rstrip=-2)%(then)%(color:dim)%(end)%(align:40)%(refname:short)%(end)%(if:equals=refs/remotes)%(refname:rstrip=-2)%(then)%(color:reset)%(end) | %(align:21)%(committerdate:short) (%(objectname:short))%(end) %(align:20)%(authorname)%(end)| %(ahead-behind:$comparison_branch)\" refs/heads refs/remotes; \
-		}; f"
 	ps = push
 	psf = push --force-with-lease
 	pl = pull

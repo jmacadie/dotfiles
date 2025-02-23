@@ -1,0 +1,48 @@
+#!/bin/bash
+
+comparison_branch=$(
+    for branch in origin/development development origin/main main origin/master master; do
+        if git show-ref --verify --quiet refs/remotes/$branch || git show-ref --verify --quiet refs/heads/$branch; then
+            echo $branch
+            break
+        fi
+    done
+)
+if [ -z "$comparison_branch" ]; then
+    echo "No reference branch found from the specified list."
+    return 1
+fi
+
+ref_len=0
+for ref in $(git for-each-ref --format='%(refname:short)' refs/heads refs/remotes); do
+    length=${#ref}
+    (( length > ref_len )) && ref_len=$length
+done
+
+auth_len=0
+while IFS= read -r name; do
+    length=${#name}
+    (( length > auth_len )) && auth_len=$length
+done < <(git for-each-ref --format='%(authorname)' refs/heads refs/remotes)
+
+last_commit_width=$(( auth_len + 22 ))
+a_b_width=$(( ${#comparison_branch} + 2 ))
+
+col_1=$(printf "%${ref_len}s" "" | tr " " "-")
+col_2=$(printf "%${last_commit_width}s" "" | tr " " "-")
+col_3=$(printf "%${a_b_width}s" "" | tr " " "-")
+
+printf "  %-${ref_len}s | %-${last_commit_width}s | %s\n" "" "" "Ahead / Behind"
+printf "  %-${ref_len}s | %-${last_commit_width}s | %s\n" "Branch" "Last Commit" "'$comparison_branch'"
+echo "  $col_1 | $col_2 | $col_3"
+
+head="%(if)%(HEAD)%(then)*%(else) %(end)"
+if_remote="%(if:equals=refs/remotes)%(refname:rstrip=-2)%(then)"
+dim_remote="$if_remote%(color:dim)%(end)"
+reset_remote="$if_remote%(color:reset)%(end)"
+refname="$dim_remote%(align:$ref_len)%(refname:short)%(end)$reset_remote"
+date_sha="%(align:21)%(committerdate:short) (%(objectname:short))%(end)"
+author="%(align:$auth_len)%(authorname)%(end)"
+ahead_behind="%(ahead-behind:$comparison_branch)"
+
+git for-each-ref --sort=-committerdate --format="$head $refname | $date_sha $author | $ahead_behind" refs/heads refs/remotes
