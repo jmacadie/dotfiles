@@ -33,8 +33,11 @@
 [diff]
 	colorMoved = default
 	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
 [merge]
-	conflictstyle = diff3
+	conflictstyle = zdiff3
 [difftool]
 	prompt = false
 	trustExitCode = true
@@ -52,5 +55,14 @@
 	ff = only
 [rebase]
 	autosquash = true
+	autostash = true
+	updateRefs = true
 [rerere]
 	enabled = true
+	autoupdate = true
+[tag]
+	sort = version:refname
+[help]
+	autocorrect = prompt
+[commit]
+	verbose = true
