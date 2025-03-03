@@ -70,6 +70,30 @@ local function get_files_status(revision)
 	return map, count
 end
 
+---Make the filename from the parts that git diff --numstat will give us
+---In particular if the substitute part is a blank string then we need to
+---handle the double file path separator that will otherwise occur when we
+---join the prefix and suffix together
+---@param prefix string
+---@param substitute string
+---@param suffix string
+---@return string
+local function make_path(prefix, substitute, suffix)
+	if substitute:len() > 0 then
+		return string.format("%s%s%s", prefix, substitute, suffix)
+	end
+
+	if prefix:len() > 0 and prefix:sub(-1) == "/" then
+		return string.format("%s%s", prefix:sub(1, -2), suffix)
+	end
+
+	if suffix:len() > 0 and suffix:sub(1, 1) == "/" then
+		return string.format("%s%s", prefix, suffix:sub(2))
+	end
+
+	return string.format("%s%s", prefix, suffix)
+end
+
 ---@class FileDiffStatus
 ---@field filename string The path and filename of the file. If the file has been moved this will be the file *after* the move
 ---@field source_filename string | nil If the file was moved, what was the source filename
@@ -115,12 +139,12 @@ local function get_diff_files(revision)
 			local deleted = tonumber(lines_deleted)
 			-- See if the format of the filname indicates a moved file
 			---@type string | nil, string | nil, string | nil, string | nil
-			local prefix, part_1, part_2, suffix = filename:match("^([^{]*){(%S+) => (%S+)}(%S*)")
+			local prefix, part_1, part_2, suffix = filename:match("^([^{]*){(%S*) => (%S*)}(%S*)")
 
 			if part_1 or part_2 then
 				--Moved file
-				local from_fname = string.format("%s%s%s", prefix, part_1, suffix)
-				local to_fname = string.format("%s%s%s", prefix, part_2, suffix)
+				local from_fname = make_path(prefix, part_1, suffix)
+				local to_fname = make_path(prefix, part_2, suffix)
 				table.insert(result, {
 					filename = to_fname,
 					source_filename = from_fname,
