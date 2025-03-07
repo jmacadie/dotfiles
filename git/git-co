@@ -5,6 +5,18 @@ if [[ -z $1 ]]; then
   exit 1
 fi
 
+if [[ $# -eq 1 ]]; then
+  remote="origin/development"
+else
+  remote_input=$2
+  server=${remote_input:0:7}
+  if [[ $server == "origin/" ]]; then
+    remote=$remote_input
+  else
+    remote="origin/$remote_input"
+  fi
+fi
+
 if [[ $(git rev-parse --quiet --verify $1) ]]; then
   echo "Local branch already exists, switching to it"
   git switch $1 > /dev/null || exit $?
@@ -18,7 +30,7 @@ else
   fi
 fi
 
-git branch --set-upstream-to=origin/development $1 > /dev/null || exit $?
+git branch --set-upstream-to=$remote $1 > /dev/null || exit $?
 git config branch.$1.pushRemote origin > /dev/null || exit $?
 git config branch.$1.push "refs/heads/$1" > /dev/null || exit $?
 
