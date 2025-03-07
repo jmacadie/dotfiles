@@ -1,0 +1,13 @@
+#!/bin/bash
+
+a="@"
+b="@{upstream}"
+
+commits=$(git rev-list $a --not $b --max-count=1)
+if [ -z $commits ]; then
+  git l ^$a~ $a
+else
+  root_commit=$(git rev-list $a --not $b --reverse | head -n 1)
+  git l ^$root_commit~2 $a $b
+fi
+
