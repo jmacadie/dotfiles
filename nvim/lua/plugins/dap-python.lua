@@ -9,6 +9,7 @@ local dap_python = {
 		require("dap-python").setup("python")
 		require("dap-python").test_runner = "pytest"
 		vim.keymap.set("n", "<leader>dd", function()
+			require("dap-view").open()
 			require("dap-python").test_method()
 		end, { desc = "DAP: Test Method" })
 		vim.fn.sign_define(
@@ -28,7 +29,7 @@ local dap_view = {
 	config = function()
 		require("dap-view").setup()
 		vim.keymap.set("n", "<leader>dv", function()
-			require("dap-view").toggle()
+			require("dap-view").toggle(true)
 		end, { desc = "DAP View: Toggle" })
 		vim.keymap.set("n", "<leader>dw", function()
 			require("dap-view").add_expr()
