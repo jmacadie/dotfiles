@@ -5,6 +5,9 @@ local ks = vim.keymap.set
 -- Keymaps for better default experience
 ks({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
+-- Don't yank to the unamed register with x, throw it away instead
+ks("n", "x", '"_x')
+
 -- [[ Navigation ]]
 
 -- Remap for dealing with word wrap
