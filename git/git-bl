@@ -25,7 +25,11 @@ while IFS= read -r name; do
     (( length > auth_len )) && auth_len=$length
 done < <(git for-each-ref --format='%(authorname)' refs/heads refs/remotes)
 
-last_commit_width=$(( auth_len + 22 ))
+commit_hash=$(git rev-parse --short HEAD)
+hash_len=${#commit_hash}
+
+date_sha_width=$(( 10 + hash_len + 3 ))
+last_commit_width=$(( auth_len + date_sha_width + 1 ))
 a_b_width=$(( ${#comparison_branch} + 2 ))
 
 col_1=$(printf "%${ref_len}s" "" | tr " " "-")
@@ -41,7 +45,7 @@ if_remote="%(if:equals=refs/remotes)%(refname:rstrip=-2)%(then)"
 dim_remote="$if_remote%(color:dim)%(end)"
 reset_remote="$if_remote%(color:reset)%(end)"
 refname="$dim_remote%(align:$ref_len)%(refname:short)%(end)$reset_remote"
-date_sha="%(align:21)%(committerdate:short) (%(objectname:short))%(end)"
+date_sha="%(align:$date_sha_width)%(committerdate:short) (%(objectname:short))%(end)"
 author="%(align:$auth_len)%(authorname)%(end)"
 ahead_behind="%(ahead-behind:$comparison_branch)"
 
