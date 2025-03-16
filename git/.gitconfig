@@ -25,6 +25,13 @@
 	pl = pull
 	f = !git remote update origin --prune && git fetch --tags
 	ff = merge --ff-only
+	r = rebase
+	ri = rebase --interactive
+	rc = rebase --continue
+	ra = rebase --abort
+	cp = cherry-pick
+	cpc = cherry-pick --continue
+	cpa = cherry-pick --abort
 	ld = log --patch
 	logs = log --stat
 	nuke = !git reset --hard && git clean -f -d
