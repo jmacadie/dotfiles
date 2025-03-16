@@ -67,5 +67,10 @@ return {
 			capabilities = utils.capabilities,
 			filetypes = { "ruby" },
 		})
+
+		lsp.clangd.setup({
+			on_attach = utils.on_attach,
+			capabilities = utils.capabilities,
+		})
 	end,
 }
