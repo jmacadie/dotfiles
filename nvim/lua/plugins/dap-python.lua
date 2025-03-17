@@ -20,6 +20,7 @@ local dap_python = {
 			"DapStopped",
 			{ text = " ", texthl = "DiagnosticOk", linehl = "PmenuSel", numhl = "PmenuSel" }
 		)
+		vim.keymap.set("n", "<leader>dp", require("custom.pandas").open, { desc = "DAP: Debug Pandas DataFrame" })
 	end,
 }
 
@@ -110,13 +111,13 @@ local dap = {
 			end,
 			desc = "DAP: Hover",
 		},
-		{
-			"<leader>dp",
-			function()
-				require("dap.ui.widgets").preview()
-			end,
-			desc = "DAP: Preview",
-		},
+		-- {
+		-- 	"<leader>dp",
+		-- 	function()
+		-- 		require("dap.ui.widgets").preview()
+		-- 	end,
+		-- 	desc = "DAP: Preview",
+		-- },
 		{
 			"<leader>df",
 			function()
