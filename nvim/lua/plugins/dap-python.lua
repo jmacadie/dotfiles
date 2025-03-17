@@ -27,7 +27,22 @@ local dap_python = {
 local dap_view = {
 	"igorlfs/nvim-dap-view",
 	config = function()
-		require("dap-view").setup()
+		local opts = {
+			winbar = {
+				show = true,
+				sections = { "console", "repl", "breakpoints", "watches", "exceptions", "threads" },
+				default_section = "console",
+			},
+			windows = {
+				height = 18,
+				terminal = {
+					position = "left",
+					hide = {},
+					start_hidden = true,
+				},
+			},
+		}
+		require("dap-view").setup(opts)
 		vim.keymap.set("n", "<leader>dv", function()
 			require("dap-view").toggle(true)
 		end, { desc = "DAP View: Toggle" })
