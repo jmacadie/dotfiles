@@ -143,6 +143,10 @@ local function get_diff_files(revision)
 
 			if part_1 or part_2 then
 				--Moved file
+				prefix = prefix or ""
+				suffix = suffix or ""
+				part_1 = part_1 or ""
+				part_2 = part_2 or ""
 				local from_fname = make_path(prefix, part_1, suffix)
 				local to_fname = make_path(prefix, part_2, suffix)
 				table.insert(result, {
