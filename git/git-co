@@ -37,8 +37,8 @@ git config branch.$1.push "refs/heads/$1" > /dev/null || exit $?
 upstream=$(git rev-parse --symbolic-full-name @{u})
 echo "Upstream tracking: '$upstream'"
 
-if git show-ref --verify --quiet "refs/heads/$1"; then
-  echo "Push branch not yet on remote. Will be called $1"
+if git show-ref --verify --quiet "refs/remotes/origin/$1"; then
+  echo "Push branch not yet on remote. Will be called [origin/]$1"
 else
   push=$(git rev-parse --symbolic-full-name @{push})
   echo "Push to: '$push'"
