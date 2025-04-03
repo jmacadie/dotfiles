@@ -21,3 +21,8 @@ pyproject
 toml
 githooks
 GitKraken
+capex
+opex
+DataFrames
+cashflow
+MRL
