@@ -74,3 +74,16 @@ vim.api.nvim_create_autocmd("FileType", {
 -- split right and below
 vim.o.splitright = true
 vim.o.splitbelow = true
+
+vim.diagnostic.config({
+	virtual_lines = {
+		severity = {
+			min = vim.diagnostic.severity.ERROR,
+		},
+	},
+	virtual_text = {
+		severity = {
+			max = vim.diagnostic.severity.WARN,
+		},
+	},
+})
