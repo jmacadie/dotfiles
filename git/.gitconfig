@@ -14,7 +14,7 @@
 	l = log --pretty='format:%C(auto)%h %d %<|(120,trunc)%s %Cblue%aN, %ad' --date=format:'%a %Y-%m-%d %H:%I' --graph --date-order
 	a = add -i
 	aa = add .
-	d = diff
+	d = diff --word-diff-regex='\\w+|[^\\s]'
 	ds = diff --staged
 	dn = diff --stat
 	c = commit
