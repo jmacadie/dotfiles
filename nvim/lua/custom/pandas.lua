@@ -7,23 +7,23 @@ M = {}
 -- https://github.com/mfussenegger/nvim-dap/blob/master/doc/dap.txt#L955
 --
 
--- local function open_floating_window()
--- 	local width = math.floor(vim.o.columns * 0.8)
--- 	local height = math.floor(vim.o.lines * 0.8)
--- 	local col = math.floor((vim.o.columns - width) / 2)
--- 	local row = math.floor((vim.o.lines - height) / 2)
--- 	local winopts = {
--- 		relative = "editor",
--- 		width = width,
--- 		height = height,
--- 		col = col,
--- 		row = row,
--- 		border = "rounded",
--- 		style = "minimal",
--- 	}
--- 	local scratch_buf = vim.api.nvim_create_buf(false, true)
--- 	return vim.api.nvim_open_win(scratch_buf, true, winopts)
--- end
+local function open_floating_window()
+	local width = math.floor(vim.o.columns * 0.8)
+	local height = math.floor(vim.o.lines * 0.8)
+	local col = math.floor((vim.o.columns - width) / 2)
+	local row = math.floor((vim.o.lines - height) / 2)
+	local winopts = {
+		relative = "editor",
+		width = width,
+		height = height,
+		col = col,
+		row = row,
+		border = "rounded",
+		style = "minimal",
+	}
+	local scratch_buf = vim.api.nvim_create_buf(false, true)
+	return vim.api.nvim_open_win(scratch_buf, true, winopts)
+end
 
 ---Will find all Pandas DataFrames and Series that are currently in memory of a paused execution of a
 ---debugged python process
@@ -132,43 +132,100 @@ local function get_pandas_dataframes(cb)
 	end
 end
 
+local function open_eval_window(var_name)
+	local winnr = open_floating_window()
+	local bufnr = dap.repl.open(nil, "lua vim.api.nvim_set_current_win(" .. winnr .. ")")
+	dap.repl.execute("df = " .. var_name)
+	dap.repl.clear()
+	dap.repl.execute("print(df.T)")
+
+	vim.keymap.set("n", "q", function()
+		vim.api.nvim_buf_delete(bufnr, { force = true })
+	end, { buffer = bufnr })
+
+	vim.keymap.set("n", "z", function()
+		dap.repl.execute("df = df[(df != 0).any(axis=1)]")
+		dap.repl.clear()
+		dap.repl.execute("print(df.T)")
+	end, { buffer = bufnr })
+end
+
+---@class DFVariable: dap.Variable
+---@field rows integer
+---@field cols integer
+
+---Count the number of lines in a string
+---@param str string
+---@return integer
+local function line_count(str)
+	local n = 0
+	for _ in str:gmatch("\n") do
+		n = n + 1
+	end
+	return (str == "") and 0 or n + 1
+end
+
+---Add the dimensions of the dataframes and series to the list
+---@param df_list dap.Variable[]
+---@return DFVariable[]
+local function add_dims(df_list)
+	local mapped = {}
+	local rows, columns
+	for i, df in ipairs(df_list) do
+		assert(df.type)
+		if df.type == "DataFrame" then
+			_, _, rows, columns = df.value:find("%[(%d*) rows x (%d*) columns%]")
+			rows = tonumber(rows) or line_count(df.value) - 1
+			columns = tonumber(columns) or 0
+		else -- df.type == "Series"
+			columns = 1
+			_, _, rows = df.value:find(", Length: (%d*),")
+			rows = tonumber(rows) or line_count(df.value) - 1
+		end
+		mapped[i] = {
+			name = df.name,
+			value = df.value,
+			type = df.type,
+			evaluateName = df.evaluateName,
+			variablesReference = df.variablesReference,
+			rows = rows,
+			cols = columns,
+		}
+	end
+	return mapped
+end
+
 M.open = function()
-	-- local winnr = open_floating_window()
-	-- local bufnr = dap.repl.open(nil, "lua vim.api.nvim_set_current_win(" .. winnr .. ")")
 	get_pandas_dataframes(function(dataframes)
-		vim.notify(vim.inspect(dataframes[5]), vim.log.levels.INFO)
-		vim.ui.select(dataframes, {
-			prompt = "Many, many datframes found. Pick one. Now!",
+		local list = add_dims(dataframes)
+		table.sort(list, function(a, b)
+			if a.cols ~= b.cols then
+				return a.cols > b.cols
+			else
+				return a.rows > b.rows
+			end
+		end)
+		vim.ui.select(list, {
+			prompt = "Many, many (" .. #list .. ") datframes found. Pick one. Now!",
 			format_item = function(item)
 				local name = item.evaluateName or item.name
 				local type = item.type or ""
-				local _, _, size = item.value:find("(%[[^%[]*row[^%]]*%])")
-				local _, _, length = item.value:find(", (Length: %d*),")
-				size = size or length or ""
-				return name .. " (" .. type .. ") " .. size
+				if not item.rows or not item.cols then
+					vim.notify(vim.inspect(item), vim.log.levels.INFO)
+				end
+				return name .. " (" .. type .. ") " .. item.cols .. " by " .. item.rows
+				-- return name
 			end,
 		}, function(choice)
 			if choice then
-				vim.notify("You picked " .. choice.evaluateName, vim.log.levels.INFO)
+				-- vim.notify("You picked " .. choice.evaluateName, vim.log.levels.INFO)
+				open_eval_window(choice.evaluateName)
 			else
 				vim.notify("No pick, no fair", vim.log.levels.INFO)
 			end
 		end)
 	end)
 	--
-	-- dap.repl.execute("df = self.cash")
-	-- dap.repl.clear()
-	-- dap.repl.execute("print(df.T)")
-	--
-	-- vim.keymap.set("n", "q", function()
-	-- 	vim.api.nvim_buf_delete(bufnr, { force = true })
-	-- end)
-	--
-	-- vim.keymap.set("n", "z", function()
-	-- 	dap.repl.execute("df = df[(df != 0).any(axis=1)]")
-	-- 	dap.repl.clear()
-	-- 	dap.repl.execute("print(df.T)")
-	-- end)
 end
 
 return M
