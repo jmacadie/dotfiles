@@ -18,6 +18,40 @@ function to_run() {
   return 1
 }
 
+version_gt() {
+  local v1 v2
+  local -a a1 a2
+
+  # 1) Strip an optional leading “v”/“V”.
+  v1=${1#[vV]}
+  v2=${2#[vV]}
+
+  # 2) Drop anything after the numeric sections (e.g. "-beta", "+build123").
+  #    Keep only digits and dots.
+  v1=${v1%%[^0-9.]*}
+  v2=${v2%%[^0-9.]*}
+
+  # 3) Split on dots into arrays.
+  IFS='.' read -ra a1 <<< "$v1"
+  IFS='.' read -ra a2 <<< "$v2"
+
+  # 4) Normalise to exactly three numeric fields (missing parts → 0).
+  for i in 0 1 2; do
+    a1[$i]=${a1[$i]:-0}
+    a2[$i]=${a2[$i]:-0}
+
+    # 5) Numerical comparison, field by field.
+    if (( ${a1[$i]} > ${a2[$i]} )); then   # v1 is newer → success
+      return 0
+    elif (( ${a1[$i]} < ${a2[$i]} )); then # v1 is older  → failure
+      return 1
+    fi
+  done
+
+  # 6) All fields equal → versions are identical, so !(v1 > v2).
+  return 1
+}
+
 function run_check() {
   local red="\e[31m"
   local green="\e[32m"
@@ -26,7 +60,7 @@ function run_check() {
   local grey="\e[90m"
   local reset="\e[0m"
 
-  if [[ $2 != $3 ]]; then
+  if version_gt "$3" "$2"; then
     echo -e "❌ $yellow$1$reset: $yellow$2$reset -> $blue$3 ($4)$reset - $grey$5$reset"
   else
     echo -e "✅ $green$1$reset: $grey$2 ($4)$reset"
