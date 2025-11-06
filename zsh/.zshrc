@@ -116,3 +116,5 @@ fortune | cowsay
 
 # Run my check versions script
 $HOME/.zsh/check_versions.sh
+
+zstyle ':completion:*:*:git:*' user-commands ll:'Show limited log between branches'

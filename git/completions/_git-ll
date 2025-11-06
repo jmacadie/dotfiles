@@ -1,12 +1,47 @@
 #compdef git-ll=git
 
+# Complete a revision, preferring branches/remotes/tags for normal words,
+# and falling back to reflog/commit-ish when the word looks like one.
+_git_ll_revisions() {
+  local cur
+  cur=${words[CURRENT]}
+
+  # Use git’s own revision helper for reflog/commit-ish syntax when available.
+  if [[ $cur == @* || $cur == HEAD* || $cur == -* || $cur == ^* || $cur == ~* ]]; then
+    if (( $+functions[__git_revisions] )); then
+      __git_revisions
+      return
+    fi
+  fi
+
+  # Prefer the richer refs helper if available.
+  if (( $+functions[__git_refs2] )); then
+    # args: <strip-prefix> <refnames...>
+    __git_refs2 '' refs/heads refs/remotes refs/tags
+    return
+  fi
+
+  # Fallback: list heads/remotes/tags ourselves
+  local -a refs specials
+  refs=(${(f)"$(git for-each-ref --format='%(refname:short)' refs/heads refs/remotes refs/tags 2>/dev/null)"})
+
+  # Add a few useful literals
+  specials=(HEAD FETCH_HEAD ORIG_HEAD)
+
+  compadd -a refs -a specials
+}
+
 _git-ll() {
+  # Ensure the main _git completion is loaded (defines __git_* helpers)
+  (( $+functions[_git] )) || autoload -Uz _git
+
   _arguments -C \
-    '::first revision:_git_any_revisions' \
-    '::second revision:_git_any_revisions' \
+    '1:first revision:_git_ll_revisions' \
+    '2:second revision:_git_ll_revisions' \
     '*:: :->too_many_args'
 
-  if [[ $state = too_many_args ]]; then
+  if [[ $state == too_many_args ]]; then
     _message 'No more than 2 revisions allowed'
   fi
 }
+
