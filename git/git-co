@@ -1,45 +1,48 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-if [[ -z $1 ]]; then
-  echo 'Usage: git co <branch>'
+branch="${1-}"
+if [[ -z "$branch" ]]; then
+  echo "Usage: git co <branch> [<upstream-tracking-branch>]"
   exit 1
 fi
 
+# Determine upstream tracking target for merges (`@{u}`)
 if [[ $# -eq 1 ]]; then
   remote="origin/development"
 else
-  remote_input=$2
-  server=${remote_input:0:7}
-  if [[ $server == "origin/" ]]; then
-    remote=$remote_input
+  remote_input="${2-}"
+  if [[ "$remote_input" == origin/* ]]; then
+    remote="$remote_input"
   else
     remote="origin/$remote_input"
   fi
 fi
 
-if [[ $(git rev-parse --quiet --verify $1) ]]; then
+# Switch or create local branch
+if git show-ref --verify --quiet "refs/heads/$branch"; then
   echo "Local branch already exists, switching to it"
-  git switch $1 > /dev/null || exit $?
+  git switch "$branch" > /dev/null
+elif git show-ref --verify --quiet "refs/remotes/origin/$branch"; then
+  echo "Creating local branch from remote"
+  git switch -c "$branch" --track "origin/$branch" > /dev/null
 else
-  if [[ $(git rev-parse --quiet --verify "origin/$1") ]]; then
-    echo "Creating local branch from remote"
-    git switch $1 > /dev/null || exit $?
-  else
-    echo "Creating new local branch"
-    git switch -c $1 > /dev/null || exit $?
-  fi
+  echo "Creating new local branch"
+  git switch -c "$branch" > /dev/null
 fi
 
-git branch --set-upstream-to=$remote $1 > /dev/null || exit $?
-git config branch.$1.pushRemote origin > /dev/null || exit $?
-git config branch.$1.push "refs/heads/$1" > /dev/null || exit $?
+# Set upstream for merges and push target
+git branch --set-upstream-to="$remote" "$branch" > /dev/null
+git config "branch.$branch.pushRemote" origin > /dev/null
+git config "branch.$branch.push" "refs/heads/$branch" > /dev/null
 
 upstream=$(git rev-parse --symbolic-full-name @{u})
-echo "Upstream tracking: '$upstream'"
+echo "  -> Upstream tracking: '$upstream'"
 
-if git show-ref --verify --quiet "refs/remotes/origin/$1"; then
-  echo "Push branch not yet on remote. Will be called [origin/]$1"
-else
+if git show-ref --verify --quiet "refs/remotes/origin/$branch"; then
   push=$(git rev-parse --symbolic-full-name @{push})
-  echo "Push to: '$push'"
+  echo "  -> Push to: '$push'"
+else
+  echo "  -> Push branch not yet on remote. It will be called 'origin/$branch'"
 fi
+
