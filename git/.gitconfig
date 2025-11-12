@@ -20,6 +20,7 @@
 	c = commit
 	sw = switch
 	b = branch
+	bd = branch -D
 	ps = push
 	psf = push --force-with-lease
 	pl = pull
@@ -37,6 +38,7 @@
 	nuke = !git reset --hard && git clean -f -d
 	unstage = reset HEAD --
 	sync = reset --hard @{push}
+	wt = worktree
 [diff]
 	colorMoved = default
 	algorithm = histogram
