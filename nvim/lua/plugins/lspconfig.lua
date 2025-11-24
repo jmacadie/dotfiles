@@ -43,34 +43,30 @@ return {
 		},
 	},
 	config = function()
-		local lsp = require("lspconfig")
-
-		lsp.lua_ls.setup({
+		vim.lsp.config("lua_ls", {
 			on_attach = utils.on_attach,
 			capabilities = utils.capabilities,
 		})
+		vim.lsp.enable("lua_ls")
 
-		lsp.basedpyright.setup({
+		vim.lsp.config("basedpyright", {
 			on_attach = utils.on_attach,
 			capabilities = utils.capabilities,
 			filetypes = { "python" },
 		})
+		vim.lsp.enable("basedpyright")
 
-		-- lsp.pyright.setup({
-		-- 	on_attach = utils.on_attach,
-		-- 	capabilities = utils.capabilities,
-		-- 	filetypes = { "python" },
-		-- })
-
-		lsp.ruby_lsp.setup({
+		vim.lsp.config("ruby_lsp", {
 			on_attach = utils.on_attach,
 			capabilities = utils.capabilities,
 			filetypes = { "ruby" },
 		})
+		vim.lsp.enable("ruby_lsp")
 
-		lsp.clangd.setup({
+		vim.lsp.config("clangd", {
 			on_attach = utils.on_attach,
 			capabilities = utils.capabilities,
 		})
+		vim.lsp.enable("clangd")
 	end,
 }
