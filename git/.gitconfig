@@ -11,7 +11,8 @@
 	default = current
 [alias]
 	s = status
-	l = log --pretty='format:%C(auto)%h %d %<|(120,trunc)%s %Cblue%aN, %ad' --date=format:'%a %Y-%m-%d %H:%I' --graph --date-order
+	l = log --pretty='format:%C(auto)%h %d %<|(120,trunc)%s %Cblue%aN, %ad' --date=format:'%a %Y-%m-%d %H:%I' --graph
+	lx = l --date-order
 	a = add -i
 	aa = add .
 	d = diff --word-diff-regex='\\w+|[^\\s]'
