@@ -6,10 +6,7 @@ return {
 	},
 	build = ":TSUpdate",
 	config = function()
-		-- [[ Configure Treesitter ]]
-		-- See `:help nvim-treesitter`
-		require("nvim-treesitter.configs").setup({
-			-- Add languages to be installed here that you want installed for treesitter
+		local opts = {
 			ensure_installed = {
 				"json",
 				"lua",
@@ -90,7 +87,9 @@ return {
 			modules = {},
 			sync_install = false,
 			ignore_install = {},
-		})
+		}
+		require("nvim-treesitter.configs").setup(opts)
+
 		local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 
 		-- Repeat movement with ; and ,

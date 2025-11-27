@@ -11,8 +11,6 @@ return {
 	dependencies = {
 		"williamboman/mason.nvim",
 		"j-hui/fidget.nvim",
-		-- "folke/neodev.nvim",
-		"saghen/blink.cmp",
 		{
 			"folke/lazydev.nvim",
 			ft = "lua", -- only load on lua files
