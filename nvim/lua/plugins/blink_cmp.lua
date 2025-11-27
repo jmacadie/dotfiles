@@ -4,9 +4,7 @@ return {
 		"rafamadriz/friendly-snippets",
 		"mikavilpas/blink-ripgrep.nvim",
 	},
-
-	version = "v0.*",
-
+	build = "cargo build --release",
 	opts = {
 		keymap = { preset = "default" },
 		appearance = {
