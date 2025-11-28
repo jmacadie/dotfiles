@@ -12,21 +12,24 @@ return {
 			server = {
 				on_attach = function(client, bufnr)
 					utils.on_attach(client, bufnr)
-					utils.nmap("<leader>ca", function()
+					local function map(keys, func, desc)
+						utils.nmap(keys, func, bufnr, desc)
+					end
+					map("<leader>ca", function()
 						vim.cmd.RustLsp("codeAction")
 					end, "[C]ode [A]ctions")
-					utils.nmap("K", function()
+					map("K", function()
 						vim.cmd.RustLsp({ "hover", "actions" })
 					end, "Hover")
-					utils.nmap("<leader>rr", function()
+					map("<leader>rr", function()
 						vim.cmd.RustLsp("runnables")
 					end, "[R]ust [R]unnables")
-					utils.nmap("<leader>rt", function()
+					map("<leader>rt", function()
 						vim.cmd.RustLsp("testables")
 					end, "[R]ust [T]estables")
 					vim.o.foldexpr = "v:lua.vim.lsp.foldexpr()"
 				end,
-				capabilities = utils.capabilities,
+				capabilities = require("blink-cmp").get_lsp_capabilities(),
 				settings = {
 					["rust-analyzer"] = {
 						checkOnSave = {
