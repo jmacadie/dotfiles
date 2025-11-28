@@ -1,12 +1,10 @@
 -- Fuzzy Finder (files, lsp, etc)
 return {
 	"nvim-telescope/telescope.nvim",
-	branch = "0.1.x",
+	branch = "master",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 	},
-	-- [[ Configure Telescope ]]
-	-- See `:help telescope` and `:help telescope.setup()`
 	config = function()
 		local actions = require("telescope.actions")
 		require("telescope").setup({
@@ -24,7 +22,6 @@ return {
 		local tt = require("telescope.themes")
 		local mg = require("custom.multigrep")
 		local cbff = function()
-			-- You can pass additional configuration to telescope to change theme, layout, etc.
 			tb.current_buffer_fuzzy_find(tt.get_dropdown({
 				winblend = 10,
 				previewer = false,
@@ -33,8 +30,6 @@ return {
 		local spell = function()
 			tb.spell_suggest(tt.get_cursor({}))
 		end
-		-- See `:help telescope.builtin`
-		vim.keymap.set("n", "<leader>?", tb.oldfiles, { desc = "[?] Find recently opened files" })
 		vim.keymap.set("n", "<leader><space>", tb.buffers, { desc = "[ ] Find existing buffers" })
 		vim.keymap.set("n", "<leader>/", cbff, { desc = "[/] Fuzzily search in current buffer" })
 		vim.keymap.set("n", "<leader>sf", tb.find_files, { desc = "[S]earch [F]iles" })
