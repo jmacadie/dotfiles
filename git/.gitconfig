@@ -23,6 +23,7 @@
 	b = branch
 	bd = branch -D
 	ps = push
+	pt = push --tags
 	psf = push --force-with-lease
 	pl = pull
 	f = !git remote update origin --prune && git fetch --tags
@@ -40,6 +41,7 @@
 	unstage = reset HEAD --
 	sync = reset --hard @{push}
 	wt = worktree
+	st = cat-file -p # show tag message
 [diff]
 	colorMoved = default
 	algorithm = histogram
@@ -76,3 +78,6 @@
 	autocorrect = prompt
 [commit]
 	verbose = true
+[credential]
+	helper = /mnt/c/Users/j.macadie/AppData/Local/Programs/Git/mingw64/bin/git-credential-manager.exe
+	useHttpPath = true

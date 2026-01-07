@@ -25,3 +25,34 @@ ks("n", "#", "#zz", { silent = true })
 -- Diagnostic keymaps
 ks("n", "[q", ":cp<CR>", { desc = "Go to previous quickfix entry" })
 ks("n", "]q", ":cn<CR>", { desc = "Go to next quickfix entry" })
+
+
+
+-- [[ Snippets ]]
+
+-- Jump forwards
+ks({ "i", "s" }, "<C-j>", function()
+	if vim.snippet.active({ direction = 1 }) then
+		vim.snippet.jump(1)
+		return ""
+	end
+	return "<C-j>"
+end, { expr = true, silent = true })
+
+-- Jump backards
+ks({ "i", "s" }, "<C-k>", function()
+	if vim.snippet.active({ direction = -1 }) then
+		vim.snippet.jump(-1)
+		return ""
+	end
+	return "<C-k>"
+end, { expr = true, silent = true })
+
+-- Quit snippet
+ks({ "i", "s" }, "<C-e>", function()
+	if vim.snippet.active() then
+		vim.snippet.stop()
+		return ""
+	end
+	return "<C-k>"
+end, { silent = true })

@@ -66,7 +66,7 @@ vim.api.nvim_command("autocmd FileType gitcommit setlocal spell")
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "gitcommit",
 	callback = function()
-		vim.bo.textwidth = 80
+		vim.bo.textwidth = 72
 		vim.opt_local.formatoptions:append("t")
 	end,
 })

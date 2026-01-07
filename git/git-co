@@ -34,7 +34,6 @@ fi
 # Set upstream for merges and push target
 git branch --set-upstream-to="$remote" "$branch" > /dev/null
 git config "branch.$branch.pushRemote" origin > /dev/null
-git config "branch.$branch.push" "refs/heads/$branch" > /dev/null
 
 upstream=$(git rev-parse --symbolic-full-name @{u})
 echo "  -> Upstream tracking: '$upstream'"

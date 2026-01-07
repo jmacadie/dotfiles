@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 function to_run() {
   local file="$HOME/.version_check_marker"

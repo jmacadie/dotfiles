@@ -15,9 +15,9 @@ function new_session() {
   # Special set-up for special sessions
   case $2 in
     "pyttg")
-      tmux send-keys -t $2:0 'eval $(poetry env activate)' C-m;
-      tmux send-keys -t $2:1 'eval $(poetry env activate)' C-m;
-      tmux send-keys -t $2:2 'eval $(poetry env activate)' C-m;
+      # tmux send-keys -t $2:0 'eval $(poetry env activate)' C-m;
+      # tmux send-keys -t $2:1 'eval $(poetry env activate)' C-m;
+      # tmux send-keys -t $2:2 'eval $(poetry env activate)' C-m;
       ;;
   esac
 }

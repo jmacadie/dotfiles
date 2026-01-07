@@ -35,7 +35,6 @@ local dap_view = {
 				default_section = "console",
 			},
 			windows = {
-				height = 18,
 				terminal = {
 					position = "left",
 					hide = {},

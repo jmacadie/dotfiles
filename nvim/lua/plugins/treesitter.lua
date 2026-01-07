@@ -2,7 +2,10 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
 	dependencies = {
-		"nvim-treesitter/nvim-treesitter-textobjects",
+		{
+			"nvim-treesitter/nvim-treesitter-textobjects",
+			branch = "main",
+		},
 	},
 	build = ":TSUpdate",
 	config = function()
@@ -88,9 +91,9 @@ return {
 			sync_install = false,
 			ignore_install = {},
 		}
-		require("nvim-treesitter.configs").setup(opts)
+		require("nvim-treesitter").setup(opts)
 
-		local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+		local ts_repeat_move = require("nvim-treesitter-textobjects.repeatable_move")
 
 		-- Repeat movement with ; and ,
 		-- vim way: ; goes to the direction you were moving.
