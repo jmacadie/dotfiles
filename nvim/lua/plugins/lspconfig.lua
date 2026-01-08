@@ -40,6 +40,19 @@ return {
 			},
 		},
 	},
+	init = function()
+		vim.api.nvim_create_autocmd("LspAttach", {
+			callback = function(args)
+				local buf = args.buf
+				local name = vim.api.nvim_buf_get_name(buf)
+
+				-- Fugitive buffers are named like: fugitive://<path>//<rev>/<file>
+				if name:match("^fugitive://") then
+					vim.lsp.buf_detach_client(buf, args.data.client_id)
+				end
+			end,
+		})
+	end,
 	config = function()
 		vim.lsp.config("lua_ls", {
 			on_attach = utils.on_attach,
