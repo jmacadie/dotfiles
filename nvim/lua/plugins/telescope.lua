@@ -15,6 +15,17 @@ return {
 						["<C-d>"] = actions.delete_buffer + actions.move_to_top,
 					},
 				},
+				layout_strategy = "horizontal",
+				layout_config = {
+					horizontal = {
+						width = 0.99,
+						height = 0.99,
+					},
+					vertical = {
+						width = 1,
+						height = 1,
+					},
+				},
 			},
 		})
 
