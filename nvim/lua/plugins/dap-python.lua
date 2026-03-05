@@ -38,7 +38,6 @@ local dap_view = {
 				terminal = {
 					position = "left",
 					hide = {},
-					start_hidden = true,
 				},
 			},
 		}
