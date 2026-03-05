@@ -42,6 +42,7 @@
 	sync = reset --hard @{push}
 	wt = worktree
 	st = cat-file -p # show tag message
+	fame = !git ls-files -z | xargs -0r -P "$(nproc)" -I{} sh -c 'git blame -w -M -C -C --line-porcelain -- {} | grep -I --line-buffered "^author-mail "' | cut -f2 -d'<' | cut -f1 -d'>' | sort -f | uniq -ic | sort -n
 [diff]
 	colorMoved = default
 	algorithm = histogram
@@ -81,3 +82,6 @@
 [credential]
 	helper = /mnt/c/Users/j.macadie/AppData/Local/Programs/Git/mingw64/bin/git-credential-manager.exe
 	useHttpPath = true
+[safe]
+	directory = /mnt/s/repos/BudgetModel
+	directory = /mnt/s/repos/BudgetDB
