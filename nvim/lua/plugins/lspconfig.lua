@@ -75,5 +75,8 @@ return {
 			on_attach = utils.on_attach,
 		})
 		vim.lsp.enable("clangd")
+		vim.lsp.config("roslyn", {
+			on_attach = utils.on_attach,
+		})
 	end,
 }

@@ -1,7 +1,7 @@
 ##### PATH / ENV ###############################################################
 
 # Ensure user binaries come first
-export PATH="$HOME/.cargo/bin:$HOME/bin:$HOME/.local/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$HOME/bin:$HOME/.local/bin:$PATH:$HOME/.dotnet/tools"
 
 # Preferred editor
 export EDITOR=nvim
@@ -60,9 +60,9 @@ source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 ##### PROXY SETTINGS ###########################################################
 
-export http_proxy="http://127.0.0.1:9000"
-export https_proxy="$http_proxy"
-export no_proxy="localhost,127.0.0.1"
+# export http_proxy="http://127.0.0.1:9000"
+# export https_proxy="$http_proxy"
+# export no_proxy="localhost,127.0.0.1"
 
 ##### PROMPT ###################################################################
 
