@@ -150,7 +150,7 @@ if to_run; then
 
   # fzf
   url="https://github.com/junegunn/fzf/releases"
-  details=$(api "$url" "^[0-9]")
+  details=$(api "$url" "^v[0-9]")
   latest=$(version "$details")
   latest_date=$(date "$details")
   installed=$(fzf --version | rg "^[0-9]" | sed "s/ ([0-9a-f]\+)$//")
