@@ -179,4 +179,24 @@ if to_run; then
   latest_date=$(date "$details")
   installed=$(atuin -V | rg "^atuin [0-9]" | sed "s/^atuin //")
   run_check "atuin" $installed $latest $latest_date $url
+
+  # git
+  url="https://git-scm.com/"
+  page=$(curl -fsSL "$url")
+  latest=$(
+    echo "$page" \
+      | rg "^\s+<span class=\"version\">" \
+      | sed -E "s/^\s+<span class=\"version\">//g" \
+      | sed -E "s#</span>\s*##g" \
+      | head -n1
+  )
+  latest_date=$(
+    echo "$page" \
+      | rg "^\s+<time>" \
+      | sed -E "s/^\s+<time>\(//g" \
+      | sed -E "s#\)</time>\s*##g" \
+      | head -n1
+  )
+  installed=$(git -v | rg "^git version [0-9]" | sed "s/^git version //")
+  run_check "git" $installed $latest $latest_date $url
 fi
