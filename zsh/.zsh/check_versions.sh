@@ -174,7 +174,7 @@ if to_run; then
 
   # atuin
   url="https://github.com/atuinsh/atuin/releases"
-  details=$(api "$url" "^[0-9]")
+  details=$(api "$url" "^v[0-9]")
   latest=$(version "$details")
   latest_date=$(date "$details")
   installed=$(atuin -V | rg "^atuin [0-9]" | sed "s/^atuin //")
