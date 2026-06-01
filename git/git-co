@@ -9,7 +9,17 @@ fi
 
 # Determine upstream tracking target for merges (`@{u}`)
 if [[ $# -eq 1 ]]; then
-  remote="origin/development"
+  for candidate in origin/development origin/main origin/master; do
+    if git show-ref --verify --quiet "refs/remotes/$candidate"; then
+      remote="$candidate"
+      break
+    fi
+  done
+
+  if [[ -z "${remote-}" ]]; then
+    echo "Could not find origin/development, origin/main, or origin/master"
+    exit 1
+  fi
 else
   remote_input="${2-}"
   if [[ "$remote_input" == origin/* ]]; then
