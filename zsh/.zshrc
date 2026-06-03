@@ -23,7 +23,9 @@ setopt INC_APPEND_HISTORY
 
 ##### COMPLETION ###############################################################
 
-autoload -Uz compinit
+fpath=("$HOME/.local/completions" $fpath)
+
+autoload -Uz compinit compdump
 compinit
 
 # Better completion behaviour

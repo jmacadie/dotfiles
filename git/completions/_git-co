@@ -1,5 +1,26 @@
-#compdef git-co=git
+#compdef git-co
 
-_git-co() {
-  _git-switch
-}
+local -a branches upstreams
+
+branches=(
+  ${(f)"$(git for-each-ref --format='%(refname:short)' refs/heads 2>/dev/null)"}
+  ${(f)"$(git for-each-ref --format='%(refname:short)' refs/remotes/origin 2>/dev/null | sed 's#^origin/##')"}
+)
+
+upstreams=(
+  ${(f)"$(git for-each-ref --format='%(refname:short)' refs/remotes/origin 2>/dev/null)"}
+  ${(f)"$(git for-each-ref --format='%(refname:short)' refs/remotes/origin 2>/dev/null | sed 's#^origin/##')"}
+)
+
+_arguments \
+  '1:branch:->branch' \
+  '2:upstream tracking branch:->upstream'
+
+case $state in
+  branch)
+    _describe 'branches' branches
+    ;;
+  upstream)
+    _describe 'upstream branches' upstreams
+    ;;
+esac

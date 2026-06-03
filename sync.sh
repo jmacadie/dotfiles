@@ -8,13 +8,15 @@ DIR="${SCRIPT%/*}"
 mkdir -p $HOME/.config
 mkdir -p $HOME/.zsh
 mkdir -p $HOME/.local/bin
-mkdir -p $HOME/.oh-my-zsh/custom/completions
+mkdir -p $HOME/.local/completions
 
 # Remove any pre-exisitng files
 rm -f $HOME/.gitconfig
 rm -f $HOME/.tmux.conf
 rm -f $HOME/.zshrc
 rm -rf $HOME/.zsh
+rm -f $HOME/.local/completions/_git-co
+rm -f $HOME/.local/completions/_git-ll
 rm -f $HOME/.local/bin/t
 rm -f $HOME/.local/bin/tt
 rm -f $HOME/.local/bin/gbt
@@ -23,8 +25,6 @@ rm -f $HOME/.local/bin/git-ll
 rm -f $HOME/.local/bin/git-llp
 rm -f $HOME/.local/bin/git-llu
 rm -f $HOME/.local/bin/git-bl
-rm -f $HOME/.oh-my-zsh/custom/completions/_git-co
-rm -f $HOME/.oh-my-zsh/custom/completions/_git-ll
 rm -f $HOME/.config/starship.toml
 rm -rf $HOME/.config/nvim
 
@@ -35,8 +35,8 @@ ln -s $DIR/git/git-ll $HOME/.local/bin/git-ll
 ln -s $DIR/git/git-llp $HOME/.local/bin/git-llp
 ln -s $DIR/git/git-llu $HOME/.local/bin/git-llu
 ln -s $DIR/git/git-bl $HOME/.local/bin/git-bl
-ln -s $DIR/git/completions/_git-co $HOME/.oh-my-zsh/custom/completions/_git-co
-ln -s $DIR/git/completions/_git-ll $HOME/.oh-my-zsh/custom/completions/_git-ll
+ln -s $DIR/git/completions/_git-co $HOME/.local/completions/_git-co
+ln -s $DIR/git/completions/_git-ll $HOME/.local/completions/_git-ll
 ln -s $DIR/tmux/.tmux.conf $HOME/.tmux.conf
 ln -s $DIR/zsh/.zshrc $HOME/.zshrc
 ln -s $DIR/zsh/.zsh $HOME/.zsh
