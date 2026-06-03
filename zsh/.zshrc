@@ -105,6 +105,10 @@ $HOME/.zsh/check_versions.sh
 ##### ALIASES ##################################################################
 
 alias cd=z
+alias ".."="cd .."
+alias "..."="cd ../.."
+alias "...."="cd ../../.."
+alias "....."="cd ../../../.."
 alias cat=bat
 alias ls=eza
 alias ll="eza -la"
