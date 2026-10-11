@@ -20,6 +20,7 @@
 	dn = diff --stat
 	c = commit
 	sw = switch
+	swd = switch --detach
 	b = branch
 	bd = branch -D
 	ps = push
